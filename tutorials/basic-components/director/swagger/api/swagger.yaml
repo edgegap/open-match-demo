@@ -1,0 +1,3656 @@
+---
+swagger: "2.0"
+info:
+  version: "1.41.174.post.dev2"
+  title: "Codema"
+basePath: "/"
+tags:
+- name: "Deployments"
+  description: "Codema - Deployments Control API"
+- name: "Applications"
+  description: "Codema - App Control API"
+- name: "Statics"
+  description: "Codema - Static Data API"
+- name: "Locations"
+  description: "Codema - Location API"
+- name: "Sessions"
+  description: "Codema - Session control API"
+- name: "Metrics"
+  description: "Codema - Metrics API"
+- name: "Custom Sessions"
+  description: "Codema - Session control API with Custom ID"
+- name: "Monitoring"
+  description: "Monitoring"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+security:
+- apikey: []
+paths:
+  /monitor:
+    get:
+      tags:
+      - "Monitoring"
+      description: "Monitor the API"
+      operationId: "monitoring"
+      parameters: []
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Monitor"
+      security: []
+  /v1/app:
+    post:
+      tags:
+      - "Applications"
+      summary: "Create a new application"
+      description: "Create an application from a client"
+      operationId: "application-post"
+      parameters:
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/ApplicationPost"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Application"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/app/{app_name}:
+    get:
+      tags:
+      - "Applications"
+      summary: "Get an application with its unique name"
+      description: "Gets application"
+      operationId: "application-get"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Application"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - "Applications"
+      summary: "Delete an application"
+      description: "Delete an application from a client"
+      operationId: "application-delete"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      responses:
+        "200":
+          description: "Success"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      tags:
+      - "Applications"
+      summary: "Update an application with new data"
+      description: "Update an application from a client"
+      operationId: "application-patch"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/ApplicationPatch"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Application"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/app/{app_name}/version:
+    post:
+      tags:
+      - "Applications"
+      summary: "Allow to Create a Version for an App"
+      description: "Create app version"
+      operationId: "app-version-post"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        description: "The Name of the App"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/AppVersion"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AppCreation"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/app/{app_name}/version/{version_name}:
+    get:
+      tags:
+      - "Applications"
+      summary: "Allow to Read a single App Version"
+      description: "Get App version"
+      operationId: "app-version-get"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        description: "The Name of the App"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      - name: "version_name"
+        in: "path"
+        description: "The Name of the Version"
+        required: true
+        type: "string"
+        x-exportParamName: "VersionName"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AppVersion"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - "Applications"
+      summary: "Allow to Delete a single App Version"
+      description: "Delete App Version"
+      operationId: "app-version-delete"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        description: "The Name of the App"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      - name: "version_name"
+        in: "path"
+        description: "The Name of the Version"
+        required: true
+        type: "string"
+        x-exportParamName: "VersionName"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AppCreation"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      tags:
+      - "Applications"
+      summary: "Allow to Update a single App Version"
+      description: "Update App Version"
+      operationId: "app-versions-patch"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        description: "The Name of the App"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      - name: "version_name"
+        in: "path"
+        description: "The Name of the Version"
+        required: true
+        type: "string"
+        x-exportParamName: "VersionName"
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/AppVersionUpdate"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AppCreation"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/app/{app_name}/version/{version_name}/whitelist:
+    get:
+      tags:
+      - "Applications"
+      summary: "Get the ACL whitelist for an app version"
+      description: "Get the ACL whitelist for an app version"
+      operationId: "app-version-whitelist-get"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        description: "The Name of the App"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      - name: "version_name"
+        in: "path"
+        description: "The Name of the App version"
+        required: true
+        type: "string"
+        x-exportParamName: "VersionName"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AppVersionWhitelistResponse"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      tags:
+      - "Applications"
+      summary: "Create an ACL whitelist entry for an app version"
+      description: "Create an ACL whitelist entry for an app version"
+      operationId: "app-version-whitelist-post"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        description: "The Name of the App"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      - name: "version_name"
+        in: "path"
+        description: "The Name of the App version"
+        required: true
+        type: "string"
+        x-exportParamName: "VersionName"
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/AppVersionWhitelistEntryPayload"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AppVersionWhitelistEntrySuccess"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/app/{app_name}/version/{version_name}/whitelist/{entry_id}:
+    get:
+      tags:
+      - "Applications"
+      summary: "Get the ACL whitelist entry for an app version"
+      description: "Get the ACL whitelist entry for an app version"
+      operationId: "app-version-whitelist-entry-get"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        description: "The Name of the App"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      - name: "version_name"
+        in: "path"
+        description: "The Name of the App version"
+        required: true
+        type: "string"
+        x-exportParamName: "VersionName"
+      - name: "entry_id"
+        in: "path"
+        description: "The unique ID of the entry"
+        required: true
+        type: "string"
+        x-exportParamName: "EntryId"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AppVersionWhitelistEntry"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - "Applications"
+      summary: "Delete the ACL whitelist entry for an app version"
+      description: "Get the ACL whitelist entry for an app version"
+      operationId: "app-version-whitelist-entry-delete"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        description: "The Name of the App"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      - name: "version_name"
+        in: "path"
+        description: "The Name of the App version"
+        required: true
+        type: "string"
+        x-exportParamName: "VersionName"
+      - name: "entry_id"
+        in: "path"
+        description: "The unique ID of the entry"
+        required: true
+        type: "string"
+        x-exportParamName: "EntryId"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AppVersionWhitelistEntrySuccess"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/app/{app_name}/versions:
+    get:
+      tags:
+      - "Applications"
+      summary: "Allow to List all Versions of an App"
+      description: "Get all app version of app"
+      operationId: "app-versions-get"
+      parameters:
+      - name: "app_name"
+        in: "path"
+        description: "The Name of the App"
+        required: true
+        type: "string"
+        x-exportParamName: "AppName"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AppVersions"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/apps:
+    get:
+      tags:
+      - "Applications"
+      summary: "Get all applications you owns"
+      description: "Get applications list"
+      operationId: "applications-get"
+      parameters: []
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Applications"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/context/{request_id}/{security_number}:
+    get:
+      tags:
+      - "Deployments"
+      summary: "Allow to get the Context of a deployment"
+      description: "Request Deployment Context Info\nYou should use this URL inside\
+        \ your deployment. The URL is injected in\nyour deployment and can be found\
+        \ via the environment variable named ARBITRIUM_CONTEXT_URL"
+      operationId: "context-get"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        description: "Unique Identifier to keep track of your request across all Arbitrium\
+          \ ecosystem. "
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      - name: "security_number"
+        in: "path"
+        description: "Random Security number generate to validate the request id."
+        required: true
+        type: "integer"
+        x-exportParamName: "SecurityNumber"
+      - name: "authorization"
+        in: "header"
+        description: "Auto Generated token. This token is injected in your deployment\
+          \ and can be found via the environment variable named ARBITRIUM_CONTEXT_TOKEN "
+        required: true
+        type: "string"
+        x-exportParamName: "Authorization"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Deployment"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+      security: []
+  /v1/deploy:
+    post:
+      tags:
+      - "Deployments"
+      summary: "Allow to deploy a new Instance of an App"
+      description: "Deploy an Application"
+      operationId: "deploy"
+      parameters:
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/DeployModel"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Request"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "409":
+          description: "Conflict"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/deployment/{request_id}/container-logs:
+    get:
+      tags:
+      - "Deployments"
+      summary: "Allow to get the Container Logs of a Deployment"
+      description: "Get a deployment container log."
+      operationId: "deployment-get-logs"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/DeploymentLogs"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/deployment/{request_id}/custom/session/{custom_id}:
+    get:
+      tags:
+      - "Custom Sessions"
+      summary: "Get a specific Custom Session from a Deployment"
+      description: "Get a specific Custom Session from a Deployment"
+      operationId: "get-custom-session"
+      parameters:
+      - name: "custom_id"
+        in: "path"
+        description: "Custom ID Managed by you"
+        required: true
+        type: "string"
+        x-exportParamName: "CustomId"
+      - name: "request_id"
+        in: "path"
+        description: "Deployment Request ID"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SessionGet"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      tags:
+      - "Custom Sessions"
+      summary: "Deploy a Custom Session to a Deployment"
+      description: "Deploy a Custom Session to a Deployment"
+      operationId: "post-custom-session"
+      parameters:
+      - name: "custom_id"
+        in: "path"
+        description: "Custom ID Managed by you"
+        required: true
+        type: "string"
+        x-exportParamName: "CustomId"
+      - name: "request_id"
+        in: "path"
+        description: "Deployment Request ID"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/CustomSessionModel"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SessionRequest"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - "Custom Sessions"
+      summary: "Delete a Custom Session from a Deployment"
+      description: "Delete a Custom Session from a Deployment"
+      operationId: "delete-custom-session"
+      parameters:
+      - name: "custom_id"
+        in: "path"
+        description: "Custom ID Managed by you"
+        required: true
+        type: "string"
+        x-exportParamName: "CustomId"
+      - name: "request_id"
+        in: "path"
+        description: "Deployment Request ID"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Delete"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      tags:
+      - "Custom Sessions"
+      summary: "Update a Custom Session from a Deployment"
+      description: "Update a Custom Session from a Deployment"
+      operationId: "patch-custom-session"
+      parameters:
+      - name: "custom_id"
+        in: "path"
+        description: "Custom ID Managed by you"
+        required: true
+        type: "string"
+        x-exportParamName: "CustomId"
+      - name: "request_id"
+        in: "path"
+        description: "Deployment Request ID"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/CustomSessionModel"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SessionGet"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/deployment/{request_id}/custom/sessions:
+    get:
+      tags:
+      - "Custom Sessions"
+      summary: "Get Custom Sessions from a Deployment"
+      description: "Get Custom Sessions from a Deployment"
+      operationId: "get-custom-sessions"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        description: "Deployment Request ID"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Sessions"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      tags:
+      - "Custom Sessions"
+      summary: "Deploy Many Custom Sessions to a Deployment"
+      description: "Deploy Many Custom Sessions to a Deployment"
+      operationId: "post-custom-sessions"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        description: "Deployment Request ID"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/CustomBulkSessionsModel"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/BulkSessionPost"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - "Custom Sessions"
+      summary: "Delete Many Custom Sessions from a Deployment"
+      description: "Delete Many Custom Sessions from a Deployment"
+      operationId: "delete-custom-sessions"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        description: "Deployment Request ID"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/CustomSessionDeleteModel"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/BulkSessionDelete"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/deployments:
+    get:
+      tags:
+      - "Deployments"
+      summary: "Allow to get the List of Deployments"
+      description: "Get All Deployments"
+      operationId: "deployments-get"
+      parameters: []
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Deployments"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/locations:
+    get:
+      tags:
+      - "Locations"
+      summary: "Get all Locations"
+      description: "Get Locations list, You can specify App and Version to filter\
+        \ Locations considering your App Requirements (cpu, memory)"
+      operationId: "locations-get"
+      parameters:
+      - name: "app"
+        in: "query"
+        description: "The App Name you want to filter with capacity"
+        required: false
+        type: "string"
+        x-exportParamName: "App"
+        x-optionalDataType: "String"
+      - name: "version"
+        in: "query"
+        description: "The Version Name you want to filter with capacity"
+        required: false
+        type: "string"
+        x-exportParamName: "Version"
+        x-optionalDataType: "String"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Locations"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/metrics/deployment/{request_id}:
+    get:
+      tags:
+      - "Metrics"
+      summary: "Get the metrics for a specific deployment based on the start_time,\
+        \ end_time and steps"
+      description: "Get the metrics of a deployment."
+      operationId: "deployment-metrics-get"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      - name: "start_time"
+        in: "query"
+        description: "Starting time for the query. Default to deployment start time.\
+          \ Should match %Y-%m-%d %H:%M:%S\n\n\t\tExample: 2021-07-10 00:00:00"
+        required: false
+        type: "string"
+        x-exportParamName: "StartTime"
+        x-optionalDataType: "String"
+      - name: "end_time"
+        in: "query"
+        description: "End time for the metrics. Default to now.Must be greater than\
+          \ start_time. Should match %Y-%m-%d %H:%M:%S\n\n\t\tExample: 2021-07-19\
+          \ 00:00:00"
+        required: false
+        type: "string"
+        x-exportParamName: "EndTime"
+        x-optionalDataType: "String"
+      - name: "steps"
+        in: "query"
+        description: "Steps between each metrics.\n\n\t\tExample: 30s, 1m, 5m 10m,\
+          \ 1h "
+        required: false
+        type: "string"
+        x-exportParamName: "Steps"
+        x-optionalDataType: "String"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/MetricsResponse"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/self/stop/{request_id}/{access_point_id}:
+    delete:
+      tags:
+      - "Deployments"
+      summary: "Allow to stop an instance for the client from inside a container"
+      description: "Self Delete a deployment\nYou should use this URL inside your\
+        \ deployment. The URL is injected in\nyour deployment and can be found via\
+        \ the environment variable named ARBITRIUM_DELETE_URL"
+      operationId: "self-deployment-delete"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        description: "Unique Identifier to keep track of your request across all Arbitrium\
+          \ ecosystem. It's included in the response of the app deploy, example: \n\
+          \n\t93924761ccde"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      - name: "access_point_id"
+        in: "path"
+        description: "Access Point Number provided by our system"
+        required: true
+        type: "integer"
+        x-exportParamName: "AccessPointId"
+      - name: "authorization"
+        in: "header"
+        description: "Auto Generated token. This token is injected in your deployment\
+          \ and can be found via the environment variable named ARBITRIUM_DELETE_TOKEN"
+        required: true
+        type: "string"
+        x-exportParamName: "Authorization"
+      - name: "container_log_storage"
+        in: "query"
+        description: "If you want to enable the container log storage for the deployment.\
+          \ You can put 'true' if you already have endpoint storage associated with\
+          \ your deployment's app version. You can put 'false' if it is enabled by\
+          \ default and you want to disable it for this specific request. Or you can\
+          \ put the name of your endpoint storage and if it is valid we will store\
+          \ the container logs."
+        required: false
+        type: "string"
+        x-exportParamName: "ContainerLogStorage"
+        x-optionalDataType: "String"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Delete"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "410":
+          description: "Instance Already terminated"
+          schema:
+            $ref: "#/definitions/Error"
+      security: []
+  /v1/session:
+    post:
+      tags:
+      - "Sessions"
+      summary: "Create a new Session with it's user"
+      description: "Create a session with it's session users"
+      operationId: "session-post"
+      parameters:
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/SessionModel"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SessionRequest"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "409":
+          description: "Conflict"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/session/{session_id}:
+    get:
+      tags:
+      - "Sessions"
+      summary: "Allow to get a specific session's information"
+      description: "Get a specific session"
+      operationId: "get-session"
+      parameters:
+      - name: "session_id"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "SessionId"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SessionGet"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - "Sessions"
+      summary: "Allow to stop a session for the client"
+      description: "Delete a session with it's users"
+      operationId: "session-delete"
+      parameters:
+      - name: "session_id"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "SessionId"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Delete"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "410":
+          description: "Instance Already terminated"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/session/{session_id}/users:
+    get:
+      tags:
+      - "Sessions"
+      summary: "Get Users of a Specific Session"
+      description: "Get Users of a Specific Session"
+      operationId: "get-users-session"
+      parameters:
+      - name: "session_id"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "SessionId"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SessionUserContext"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      tags:
+      - "Sessions"
+      summary: "Add Users to a Specific Session"
+      description: "Add Users to a Specific Session"
+      operationId: "put-users-session"
+      parameters:
+      - name: "session_id"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "SessionId"
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/PatchSessionModel"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SessionUserContext"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - "Sessions"
+      summary: "Delete Users from a Session"
+      description: "Remove Users from a Specific Session"
+      operationId: "delete-users-session"
+      parameters:
+      - name: "session_id"
+        in: "path"
+        required: true
+        type: "string"
+        x-exportParamName: "SessionId"
+      - in: "body"
+        name: "payload"
+        required: true
+        schema:
+          $ref: "#/definitions/PatchSessionModel"
+        x-exportParamName: "Payload"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SessionUserContext"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/sessions:
+    get:
+      tags:
+      - "Sessions"
+      summary: "Allow to get a list of sessions with basic information"
+      description: "Get All Sessions"
+      operationId: "list-sessions"
+      parameters: []
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Sessions"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/static/sites:
+    get:
+      tags:
+      - "Statics"
+      summary: "Gets the list of static sites of Arbitrium"
+      description: "Gets the list of static sites of Arbitrium"
+      operationId: "statics-site-get"
+      parameters: []
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/StaticSitesList"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/status/{request_id}:
+    get:
+      tags:
+      - "Deployments"
+      summary: "Allow to get The current status of a request"
+      description: "Get Deployment Request status"
+      operationId: "deployment-status-get"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        description: "Unique Identifier to keep track of your request across all Arbitrium\
+          \ ecosystem. It's included in the response of the app deploy, example: \n\
+          \n\t93924761ccde"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Status"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+  /v1/stop/{request_id}:
+    delete:
+      tags:
+      - "Deployments"
+      summary: "Allow to stop an instance for the client"
+      description: "Delete a deployment"
+      operationId: "deployment-delete"
+      parameters:
+      - name: "request_id"
+        in: "path"
+        description: "Unique Identifier to keep track of your request across all Arbitrium\
+          \ ecosystem. It's included in the response of the app deploy, example: \n\
+          \n\t93924761ccde"
+        required: true
+        type: "string"
+        x-exportParamName: "RequestId"
+      - name: "container_log_storage"
+        in: "query"
+        description: "If you want to enable the container log storage for the deployment.\
+          \ You can put 'true' if you already have endpoint storage associated with\
+          \ your deployment's app version. You can put 'false' if it is enabled by\
+          \ default and you want to disable it for this specific request. Or you can\
+          \ put the name of your endpoint storage and if it is valid we will store\
+          \ the container logs."
+        required: false
+        type: "string"
+        x-exportParamName: "ContainerLogStorage"
+        x-optionalDataType: "String"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Delete"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/Error"
+        "401":
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/Error"
+        "410":
+          description: "Instance Already terminated"
+          schema:
+            $ref: "#/definitions/Error"
+securityDefinitions:
+  apikey:
+    description: "Example: { \"authorization\": \"token abcdef1234\" }"
+    type: "apiKey"
+    name: "authorization"
+    in: "header"
+definitions:
+  Deployment:
+    type: "object"
+    required:
+    - "fqdn"
+    - "public_ip"
+    - "ready"
+    - "request_id"
+    - "status"
+    - "whitelisting_active"
+    properties:
+      request_id:
+        type: "string"
+        example: "abc123"
+        description: "Unique UUID"
+      public_ip:
+        type: "string"
+        example: "100.10.0.85"
+        description: "The public IP"
+      status:
+        type: "string"
+        example: "Status.READY"
+        description: "Current status of Deployment"
+      ready:
+        type: "boolean"
+        example: true
+        description: "if the deployment is ready"
+      whitelisting_active:
+        type: "boolean"
+        example: true
+        description: "if the deployment ACL is active"
+      fqdn:
+        type: "string"
+        example: "abc123.test.edgegap.com"
+        description: ""
+      ports:
+        type: "object"
+        example:
+          "80":
+            external: 31587
+            internal: 80
+            protocol: "TCP"
+          "443":
+            external: 31669
+            internal: 433
+            protocol: "TCP"
+        additionalProperties:
+          $ref: "#/definitions/PortMapping"
+      location:
+        description: "Location related information"
+        $ref: "#/definitions/DeploymentLocation"
+      tags:
+        type: "array"
+        description: "List of tags associated with the deployment"
+        items:
+          type: "string"
+          example: "production"
+      sockets:
+        type: "integer"
+        example: 5
+        description: "The Capacity of the Deployment"
+      sockets_usage:
+        type: "integer"
+        example: 2
+        description: "The Capacity Usage of the Deployment"
+    example:
+      public_ip: "100.10.0.85"
+      whitelisting_active: true
+      fqdn: "abc123.test.edgegap.com"
+      ready: true
+      location:
+        continent: "North America"
+        country: "Canada"
+        administrative_division: "Quebec"
+        city: "Montreal"
+        timezone: "Eastern Time"
+        latitude: 45.5088879999999988967829267494380474090576171875
+        longitude: -73.56166799999999739156919531524181365966796875
+      sockets: 5
+      ports:
+        "80":
+          external: 31587
+          internal: 80
+          protocol: "TCP"
+        "443":
+          external: 31669
+          internal: 433
+          protocol: "TCP"
+      request_id: "abc123"
+      status: "Status.READY"
+      tags:
+      - "production"
+      - "production"
+      sockets_usage: 2
+  PortMapping:
+    type: "object"
+    properties:
+      external:
+        type: "integer"
+        description: "The Port to Connect from Internet"
+        minimum: 1
+        maximum: 65535
+      internal:
+        type: "integer"
+        description: "The internal Port of the Container"
+        minimum: 1
+        maximum: 65535
+      protocol:
+        type: "string"
+        description: "The Protocol (i.e. 'TCP')"
+  DeploymentLocation:
+    type: "object"
+    required:
+    - "administrative_division"
+    - "city"
+    - "continent"
+    - "country"
+    - "latitude"
+    - "longitude"
+    - "timezone"
+    properties:
+      city:
+        type: "string"
+        example: "Montreal"
+        description: "City of the deployment"
+      country:
+        type: "string"
+        example: "Canada"
+        description: "Country of the deployment"
+      continent:
+        type: "string"
+        example: "North America"
+        description: "Continent of the deployment"
+      administrative_division:
+        type: "string"
+        example: "Quebec"
+        description: "Administrative division of the deployment"
+      timezone:
+        type: "string"
+        example: "Eastern Time"
+        description: "Timezone of the deployment"
+      latitude:
+        type: "number"
+        example: 45.5088879999999988967829267494380474090576171875
+        description: "Latitude of the deployment"
+      longitude:
+        type: "number"
+        example: -73.56166799999999739156919531524181365966796875
+        description: "Longitude of the deployment"
+    example:
+      continent: "North America"
+      country: "Canada"
+      administrative_division: "Quebec"
+      city: "Montreal"
+      timezone: "Eastern Time"
+      latitude: 45.5088879999999988967829267494380474090576171875
+      longitude: -73.56166799999999739156919531524181365966796875
+  Error:
+    type: "object"
+    required:
+    - "message"
+    properties:
+      message:
+        type: "string"
+        description: "A message depending of the request termination"
+  DeployModel:
+    type: "object"
+    required:
+    - "app_name"
+    properties:
+      app_name:
+        type: "string"
+        description: "The Name of the App you want to deploy"
+      version_name:
+        type: "string"
+        description: "The Name of the App Version you want to deploy, if not present,\
+          \ the last version created is picked"
+      ip_list:
+        type: "array"
+        description: "The List of IP of your user"
+        items:
+          type: "string"
+          example: "1.2.3.4"
+      geo_ip_list:
+        type: "array"
+        description: "The list of IP of your user with their location (latitude, longitude)"
+        items:
+          $ref: "#/definitions/GeoIpListModel"
+      env_vars:
+        type: "array"
+        description: "A list of deployment variables"
+        items:
+          $ref: "#/definitions/DeployEnvModel"
+      skip_telemetry:
+        type: "boolean"
+        description: "If you want to skip the Telemetry and use a geolocations decision\
+          \ only"
+      location:
+        description: "If you want to specify a centroid for your deployment."
+        $ref: "#/definitions/LocationModel"
+      city:
+        type: "string"
+        example: "Montreal"
+        description: "If you want to deploy in a specific city"
+      country:
+        type: "string"
+        example: "Canada"
+        description: "If you want to deploy in a specific country"
+      continent:
+        type: "string"
+        example: "North America"
+        description: "If you want to deploy in a specific continent"
+      region:
+        type: "string"
+        description: "If you want to deploy in a specific region"
+      administrative_division:
+        type: "string"
+        example: "Quebec"
+        description: "If you want to deploy in a specific administrative division"
+      webhook_url:
+        type: "string"
+        example: "https://www.webhook.com/"
+        description: "A web URL. This url will be called with method POST. The deployment\
+          \ status will be send in JSON format"
+      tags:
+        type: "array"
+        description: "The list of tags for your deployment"
+        items:
+          type: "string"
+          example: "production"
+      container_log_storage:
+        description: "The container log storage options for the deployment"
+        $ref: "#/definitions/ContainerLogStorageModel"
+    example:
+      continent: "North America"
+      country: "Canada"
+      administrative_division: "Quebec"
+      webhook_url: "https://www.webhook.com/"
+      city: "Montreal"
+      ip_list:
+      - "1.2.3.4"
+      - "1.2.3.4"
+      skip_telemetry: true
+      env_vars:
+      - is_hidden: true
+        value: "value"
+        key: "key"
+      - is_hidden: true
+        value: "value"
+        key: "key"
+      tags:
+      - "production"
+      - "production"
+      app_name: "app_name"
+      version_name: "version_name"
+      location:
+        latitude: 1.46581298050294517310021547018550336360931396484375
+        longitude: 5.962133916683182377482808078639209270477294921875
+      geo_ip_list:
+      - ip: "ip"
+        latitude: 0.80082819046101150206595775671303272247314453125
+        longitude: 6.02745618307040320615897144307382404804229736328125
+      - ip: "ip"
+        latitude: 0.80082819046101150206595775671303272247314453125
+        longitude: 6.02745618307040320615897144307382404804229736328125
+      region: "region"
+      container_log_storage:
+        enabled: true
+        endpoint_storage: "endpoint_storage"
+  GeoIpListModel:
+    type: "object"
+    required:
+    - "ip"
+    - "latitude"
+    - "longitude"
+    properties:
+      ip:
+        type: "string"
+        description: "IP"
+      latitude:
+        type: "number"
+        description: "Latitude"
+      longitude:
+        type: "number"
+        description: "Longitude"
+    example:
+      ip: "ip"
+      latitude: 0.80082819046101150206595775671303272247314453125
+      longitude: 6.02745618307040320615897144307382404804229736328125
+  DeployEnvModel:
+    type: "object"
+    required:
+    - "key"
+    - "value"
+    properties:
+      key:
+        type: "string"
+        description: "The Key to retrieve the value in your instance"
+      value:
+        type: "string"
+        description: "The value to set in your instance"
+      is_hidden:
+        type: "boolean"
+        description: "If set to true, the value will be encrypted during the process\
+          \ of deployment"
+    example:
+      is_hidden: true
+      value: "value"
+      key: "key"
+  LocationModel:
+    type: "object"
+    required:
+    - "latitude"
+    - "longitude"
+    properties:
+      latitude:
+        type: "number"
+        description: "Latitude"
+      longitude:
+        type: "number"
+        description: "Longitude"
+    example:
+      latitude: 1.46581298050294517310021547018550336360931396484375
+      longitude: 5.962133916683182377482808078639209270477294921875
+  ContainerLogStorageModel:
+    type: "object"
+    required:
+    - "enabled"
+    properties:
+      enabled:
+        type: "boolean"
+        description: "Will override the app version container log storage for this\
+          \ deployment"
+      endpoint_storage:
+        type: "string"
+        description: "The name of your endpoint storage. If container log storage\
+          \ is enabled without this parameter, we will try to take the app version\
+          \ endpoint storage. If there is no endpoint storage in your app version,\
+          \ the container logs will not be stored. If we don't find any endpoint storage\
+          \ associated with this name, the container logs will not be stored."
+    example:
+      enabled: true
+      endpoint_storage: "endpoint_storage"
+  Request:
+    type: "object"
+    required:
+    - "container_log_storage"
+    - "request_app"
+    - "request_dns"
+    - "request_id"
+    - "request_user_count"
+    - "request_version"
+    properties:
+      request_id:
+        type: "string"
+        example: "93924761ccde"
+        description: "The Unique Identifier of the request"
+      request_dns:
+        type: "string"
+        example: "supermario.93924761ccde.edgelab.io"
+        description: "The URL to connect to the instance"
+      request_app:
+        type: "string"
+        example: "supermario"
+        description: "The Name of the App you requested"
+      request_version:
+        type: "string"
+        description: "The name of the App Version you requested"
+      request_user_count:
+        type: "integer"
+        example: 4
+        description: "How Many Users your request contain"
+      city:
+        type: "string"
+        description: "The city where the deployment is located"
+      country:
+        type: "string"
+        description: "The country where the deployment is located"
+      continent:
+        type: "string"
+        description: "The continent where the deployment is located"
+      administrative_division:
+        type: "string"
+        description: "The administrative division where the deployment is located"
+      tags:
+        type: "array"
+        description: "List of tags associated with the deployment"
+        items:
+          type: "string"
+          example: "production"
+      container_log_storage:
+        description: "The container log storage options for the deployment"
+        $ref: "#/definitions/ContainerLogStorageModel"
+    example:
+      request_app: "supermario"
+      continent: "continent"
+      country: "country"
+      request_version: "request_version"
+      administrative_division: "administrative_division"
+      request_user_count: 4
+      city: "city"
+      request_dns: "supermario.93924761ccde.edgelab.io"
+      request_id: "93924761ccde"
+      tags:
+      - "production"
+      - "production"
+      container_log_storage:
+        enabled: true
+        endpoint_storage: "endpoint_storage"
+  Deployments:
+    type: "object"
+    properties:
+      data:
+        type: "array"
+        description: "List of Active Deployments"
+        items:
+          $ref: "#/definitions/Deployment"
+      total_count:
+        type: "integer"
+        description: "Total Objects in the Database"
+      pagination:
+        description: "Pagination Object"
+        $ref: "#/definitions/Pagination"
+      message:
+        type: "array"
+        description: "Extra Messages for the query"
+        items:
+          type: "string"
+    example:
+      pagination:
+        number: 6
+        has_previous: true
+        next_page_number: 1
+        has_next: true
+        paginator:
+          num_pages: 5
+        previous_page_number: 5
+      data:
+      - public_ip: "100.10.0.85"
+        whitelisting_active: true
+        fqdn: "abc123.test.edgegap.com"
+        ready: true
+        location:
+          continent: "North America"
+          country: "Canada"
+          administrative_division: "Quebec"
+          city: "Montreal"
+          timezone: "Eastern Time"
+          latitude: 45.5088879999999988967829267494380474090576171875
+          longitude: -73.56166799999999739156919531524181365966796875
+        sockets: 5
+        ports:
+          "80":
+            external: 31587
+            internal: 80
+            protocol: "TCP"
+          "443":
+            external: 31669
+            internal: 433
+            protocol: "TCP"
+        request_id: "abc123"
+        status: "Status.READY"
+        tags:
+        - "production"
+        - "production"
+        sockets_usage: 2
+      - public_ip: "100.10.0.85"
+        whitelisting_active: true
+        fqdn: "abc123.test.edgegap.com"
+        ready: true
+        location:
+          continent: "North America"
+          country: "Canada"
+          administrative_division: "Quebec"
+          city: "Montreal"
+          timezone: "Eastern Time"
+          latitude: 45.5088879999999988967829267494380474090576171875
+          longitude: -73.56166799999999739156919531524181365966796875
+        sockets: 5
+        ports:
+          "80":
+            external: 31587
+            internal: 80
+            protocol: "TCP"
+          "443":
+            external: 31669
+            internal: 433
+            protocol: "TCP"
+        request_id: "abc123"
+        status: "Status.READY"
+        tags:
+        - "production"
+        - "production"
+        sockets_usage: 2
+      total_count: 0
+      message:
+      - "message"
+      - "message"
+  Pagination:
+    type: "object"
+    properties:
+      number:
+        type: "integer"
+        description: "Current page number"
+      next_page_number:
+        type: "integer"
+        description: "Next page number"
+      previous_page_number:
+        type: "integer"
+        description: "Previous page number"
+      paginator:
+        $ref: "#/definitions/Paginator"
+      has_next:
+        type: "boolean"
+        description: "If there is a next page"
+      has_previous:
+        type: "boolean"
+        description: "If there is a previous page"
+    example:
+      number: 6
+      has_previous: true
+      next_page_number: 1
+      has_next: true
+      paginator:
+        num_pages: 5
+      previous_page_number: 5
+  Paginator:
+    type: "object"
+    properties:
+      num_pages:
+        type: "integer"
+        description: "Total pages count"
+    example:
+      num_pages: 5
+  DeploymentLogs:
+    type: "object"
+    required:
+    - "encoding"
+    - "logs"
+    properties:
+      logs:
+        type: "string"
+        example: "Your server has started -- resuming normal operations"
+        description: "The logs of your deployment"
+      encoding:
+        type: "string"
+        example: "utf-8"
+        description: "The encoding of the logs"
+    example:
+      encoding: "utf-8"
+      logs: "Your server has started -- resuming normal operations"
+  Status:
+    type: "object"
+    required:
+    - "app_name"
+    - "app_version"
+    - "current_status"
+    - "elapsed_time"
+    - "error"
+    - "fqdn"
+    - "public_ip"
+    - "request_id"
+    - "running"
+    - "start_time"
+    - "whitelisting_active"
+    properties:
+      request_id:
+        type: "string"
+        description: "The Unique ID of the Request"
+      fqdn:
+        type: "string"
+        example: "abc123.test.edgegap.com"
+        description: "The FQDN that allow to connect to your instance"
+      app_name:
+        type: "string"
+        example: "test"
+        description: "The name of the deployed App"
+      app_version:
+        type: "string"
+        example: "v1"
+        description: "The version of the deployed App"
+      current_status:
+        type: "string"
+        example: "Status.DEPLOYING"
+        description: "The Current Status of the Request"
+      running:
+        type: "boolean"
+        example: true
+        description: "True if the Current Request is Ready to be connected and running"
+      whitelisting_active:
+        type: "boolean"
+        example: true
+        description: "True if the Current Request is ACL Protected"
+      start_time:
+        type: "string"
+        description: "Timestamp of the beginning of the Request"
+      elapsed_time:
+        type: "integer"
+        description: "Time since the Request is up and running in seconds"
+      last_status:
+        type: "string"
+        example: "Status.SEEKING"
+        description: "The Last Status of the Request"
+      error:
+        type: "boolean"
+        example: true
+        description: "True if there is an Error with the Request"
+      error_detail:
+        type: "string"
+        description: "The Error detail of the Request"
+      ports:
+        type: "object"
+        example:
+          "80":
+            external: 31587
+            internal: 80
+            protocol: "TCP"
+          "443":
+            external: 31669
+            internal: 433
+            protocol: "TCP"
+        additionalProperties:
+          $ref: "#/definitions/PortMapping"
+      public_ip:
+        type: "string"
+        example: "100.10.0.85"
+        description: "The public IP"
+      sessions:
+        type: "array"
+        description: "List of Active Sessions if Deployment App is Session Based"
+        items:
+          $ref: "#/definitions/DeploymentSessionContext"
+      location:
+        description: "Location related information"
+        $ref: "#/definitions/DeploymentLocation"
+      tags:
+        type: "array"
+        description: "List of tags associated with the deployment"
+        items:
+          type: "string"
+          example: "production"
+      sockets:
+        type: "integer"
+        example: 5
+        description: "The Capacity of the Deployment"
+      sockets_usage:
+        type: "integer"
+        example: 2
+        description: "The Capacity Usage of the Deployment"
+    example:
+      sessions:
+      - user_count: 10
+        ready: true
+        kind: "DEFAULT | SEATS | MATCH"
+        session_id: "abc123"
+        status: "Status.READY"
+        linked: true
+      - user_count: 10
+        ready: true
+        kind: "DEFAULT | SEATS | MATCH"
+        session_id: "abc123"
+        status: "Status.READY"
+        linked: true
+      whitelisting_active: true
+      public_ip: "100.10.0.85"
+      app_version: "v1"
+      fqdn: "abc123.test.edgegap.com"
+      error_detail: "error_detail"
+      last_status: "Status.SEEKING"
+      error: true
+      ports:
+        "80":
+          external: 31587
+          internal: 80
+          protocol: "TCP"
+        "443":
+          external: 31669
+          internal: 433
+          protocol: "TCP"
+      tags:
+      - "production"
+      - "production"
+      running: true
+      app_name: "test"
+      start_time: "start_time"
+      elapsed_time: 0
+      current_status: "Status.DEPLOYING"
+      location:
+        continent: "North America"
+        country: "Canada"
+        administrative_division: "Quebec"
+        city: "Montreal"
+        timezone: "Eastern Time"
+        latitude: 45.5088879999999988967829267494380474090576171875
+        longitude: -73.56166799999999739156919531524181365966796875
+      sockets: 5
+      request_id: "request_id"
+      sockets_usage: 2
+  DeploymentSessionContext:
+    type: "object"
+    required:
+    - "kind"
+    - "linked"
+    - "ready"
+    - "session_id"
+    - "status"
+    - "user_count"
+    properties:
+      session_id:
+        type: "string"
+        example: "abc123"
+        description: "Unique UUID"
+      status:
+        type: "string"
+        example: "Status.READY"
+        description: "Current status of the session"
+      ready:
+        type: "boolean"
+        example: true
+        description: "If the session is linked to a Ready deployment"
+      linked:
+        type: "boolean"
+        example: true
+        description: "If the session is linked to a deployment"
+      kind:
+        type: "string"
+        example: "DEFAULT | SEATS | MATCH"
+        description: "Type of session created"
+      user_count:
+        type: "integer"
+        example: 10
+        description: "Count of user this session currently have"
+    example:
+      user_count: 10
+      ready: true
+      kind: "DEFAULT | SEATS | MATCH"
+      session_id: "abc123"
+      status: "Status.READY"
+      linked: true
+  Delete:
+    type: "object"
+    required:
+    - "message"
+    - "session_id"
+    properties:
+      message:
+        type: "string"
+        example: "Instance 93924761ccde will be deleted"
+        description: "A message depending of the request termination"
+      session_id:
+        type: "string"
+        example: "abc123-s"
+        description: "The Unique Identifier of the Session"
+      custom_id:
+        type: "string"
+        example: "custom-abc123"
+        description: "Custom ID if Available"
+    example:
+      custom_id: "custom-abc123"
+      session_id: "abc123-s"
+      message: "Instance 93924761ccde will be deleted"
+  Applications:
+    type: "object"
+    properties:
+      applications:
+        type: "array"
+        items:
+          $ref: "#/definitions/Application"
+    example:
+      applications:
+      - image: "iVBORw0KGgoAAAANSUhEUg[...]AAABJRU5ErkJggg=="
+        last_updated: "2021-08-18 20:27:34.219459"
+        is_active: true
+        create_time: "2021-08-18 20:27:34.219459"
+        name: "Example App"
+      - image: "iVBORw0KGgoAAAANSUhEUg[...]AAABJRU5ErkJggg=="
+        last_updated: "2021-08-18 20:27:34.219459"
+        is_active: true
+        create_time: "2021-08-18 20:27:34.219459"
+        name: "Example App"
+  Application:
+    type: "object"
+    required:
+    - "create_time"
+    - "is_active"
+    - "last_updated"
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "Example App"
+        description: "Application name"
+      is_active:
+        type: "boolean"
+        example: true
+        description: "If the application can be deployed"
+      image:
+        type: "string"
+        example: "iVBORw0KGgoAAAANSUhEUg[...]AAABJRU5ErkJggg=="
+        description: "Image base64 string"
+      create_time:
+        type: "string"
+        example: "2021-08-18 20:27:34.219459"
+        description: "Creation date"
+      last_updated:
+        type: "string"
+        example: "2021-08-18 20:27:34.219459"
+        description: "Date of the last update"
+    example:
+      image: "iVBORw0KGgoAAAANSUhEUg[...]AAABJRU5ErkJggg=="
+      last_updated: "2021-08-18 20:27:34.219459"
+      is_active: true
+      create_time: "2021-08-18 20:27:34.219459"
+      name: "Example App"
+  ApplicationPatch:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "Example App"
+        description: "Application name"
+      is_active:
+        type: "boolean"
+        example: true
+        description: "If the application can be deployed"
+      image:
+        type: "string"
+        example: "iVBORw0KGgoAAAANSUhEUg[...]AAABJRU5ErkJggg=="
+        description: "Image base64 string"
+    example:
+      image: "iVBORw0KGgoAAAANSUhEUg[...]AAABJRU5ErkJggg=="
+      is_active: true
+      name: "Example App"
+  ApplicationPost:
+    type: "object"
+    required:
+    - "image"
+    - "is_active"
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "Example App"
+        description: "Application name"
+      is_active:
+        type: "boolean"
+        example: true
+        description: "If the application can be deployed"
+      image:
+        type: "string"
+        example: "iVBORw0KGgoAAAANSUhEUg[...]AAABJRU5ErkJggg=="
+        description: "Image base64 string"
+    example:
+      image: "iVBORw0KGgoAAAANSUhEUg[...]AAABJRU5ErkJggg=="
+      is_active: true
+      name: "Example App"
+  AppVersions:
+    type: "object"
+    properties:
+      versions:
+        type: "array"
+        items:
+          $ref: "#/definitions/AppVersion"
+      total_count:
+        type: "integer"
+    example:
+      versions:
+      - time_to_deploy: 30
+        is_active: true
+        docker_tag: "docker_tag"
+        req_cpu: 256
+        whitelisting_active: true
+        req_video: 256
+        private_token: "private_token"
+        req_memory: 256
+        envs:
+        - is_secret: true
+          value: "value"
+          key: "key"
+        - is_secret: true
+          value: "value"
+          key: "key"
+        use_telemetry: true
+        ports:
+        - protocol: "TCP"
+          port: 5555
+          to_check: true
+        - protocol: "TCP"
+          port: 5555
+          to_check: true
+        private_username: "private_username"
+        max_duration: 30
+        cache_max_hour: 13
+        probe:
+          rejected_ping: 180
+          optimal_ping: 60
+        docker_repository: "docker_repository"
+        inject_context_env: true
+        session_config:
+          kind: "seat"
+          empty_ttl: 60
+          autodeploy: true
+          sockets: 10
+        name: "name"
+        force_cache: true
+        cache_min_hour: 1
+        docker_image: "docker_image"
+      - time_to_deploy: 30
+        is_active: true
+        docker_tag: "docker_tag"
+        req_cpu: 256
+        whitelisting_active: true
+        req_video: 256
+        private_token: "private_token"
+        req_memory: 256
+        envs:
+        - is_secret: true
+          value: "value"
+          key: "key"
+        - is_secret: true
+          value: "value"
+          key: "key"
+        use_telemetry: true
+        ports:
+        - protocol: "TCP"
+          port: 5555
+          to_check: true
+        - protocol: "TCP"
+          port: 5555
+          to_check: true
+        private_username: "private_username"
+        max_duration: 30
+        cache_max_hour: 13
+        probe:
+          rejected_ping: 180
+          optimal_ping: 60
+        docker_repository: "docker_repository"
+        inject_context_env: true
+        session_config:
+          kind: "seat"
+          empty_ttl: 60
+          autodeploy: true
+          sockets: 10
+        name: "name"
+        force_cache: true
+        cache_min_hour: 1
+        docker_image: "docker_image"
+      total_count: 0
+  AppVersion:
+    type: "object"
+    required:
+    - "docker_image"
+    - "docker_repository"
+    - "docker_tag"
+    - "name"
+    - "req_cpu"
+    - "req_memory"
+    properties:
+      name:
+        type: "string"
+        description: "The Version Name"
+      is_active:
+        type: "boolean"
+        description: "If the Version is active currently in the system"
+      docker_repository:
+        type: "string"
+        description: "The Repository where the image is (i.e. 'harbor.edgegap.com'\
+          \ or 'docker.io')"
+      docker_image:
+        type: "string"
+        description: "The name of your image (i.e. 'edgegap/demo')"
+      docker_tag:
+        type: "string"
+        description: "The tag of your image (i.e. '0.1.2')"
+      private_username:
+        type: "string"
+        description: "The username to access the docker repository"
+      private_token:
+        type: "string"
+        description: "The Private Password or Token of the username (We recommend\
+          \ to use a token)"
+      req_cpu:
+        type: "integer"
+        example: 256
+        description: "Units of vCPU needed (1024= 1vcpu)"
+        minimum: 100
+      req_memory:
+        type: "integer"
+        example: 256
+        description: "Units of memory in MB needed (1024 = 1GB)"
+        minimum: 100
+      req_video:
+        type: "integer"
+        example: 256
+        description: "Units of GPU needed (1024= 1 GPU)"
+        minimum: 0
+      max_duration:
+        type: "integer"
+        example: 30
+        description: "The Max duration of the game in minute. 0 means forever."
+      use_telemetry:
+        type: "boolean"
+        description: "Allow to inject ASA Variables"
+      inject_context_env:
+        type: "boolean"
+        description: "Allow to inject Context Variables"
+      whitelisting_active:
+        type: "boolean"
+        description: "ACL Protection is active"
+      force_cache:
+        type: "boolean"
+        description: "Allow faster deployment by caching your container image in every\
+          \ Edge site"
+      cache_min_hour:
+        type: "integer"
+        description: "Start of the preferred interval for caching your container"
+        minimum: 0
+        maximum: 23
+      cache_max_hour:
+        type: "integer"
+        description: "End of the preferred interval for caching your container"
+        minimum: 0
+        maximum: 23
+      time_to_deploy:
+        type: "integer"
+        example: 30
+        description: "Estimated maximum time in seconds to deploy, after this time\
+          \ we will consider it not working and retry."
+        minimum: 30
+      session_config:
+        description: "Parameters defining the behavior of a session-based app version.\
+          \ If set, the app is considered to be session-based."
+        $ref: "#/definitions/AppVersionCreateSessionConfig"
+      ports:
+        type: "array"
+        items:
+          $ref: "#/definitions/AppVersionPort"
+      probe:
+        $ref: "#/definitions/AppVersionProbe"
+      envs:
+        type: "array"
+        items:
+          $ref: "#/definitions/AppVersionEnv"
+    example:
+      time_to_deploy: 30
+      is_active: true
+      docker_tag: "docker_tag"
+      req_cpu: 256
+      whitelisting_active: true
+      req_video: 256
+      private_token: "private_token"
+      req_memory: 256
+      envs:
+      - is_secret: true
+        value: "value"
+        key: "key"
+      - is_secret: true
+        value: "value"
+        key: "key"
+      use_telemetry: true
+      ports:
+      - protocol: "TCP"
+        port: 5555
+        to_check: true
+      - protocol: "TCP"
+        port: 5555
+        to_check: true
+      private_username: "private_username"
+      max_duration: 30
+      cache_max_hour: 13
+      probe:
+        rejected_ping: 180
+        optimal_ping: 60
+      docker_repository: "docker_repository"
+      inject_context_env: true
+      session_config:
+        kind: "seat"
+        empty_ttl: 60
+        autodeploy: true
+        sockets: 10
+      name: "name"
+      force_cache: true
+      cache_min_hour: 1
+      docker_image: "docker_image"
+  AppVersionCreateSessionConfig:
+    type: "object"
+    required:
+    - "kind"
+    - "sockets"
+    properties:
+      kind:
+        type: "string"
+        example: "seat"
+        description: "The kind of session to create. If 'Default' if chosen, the 'session_config'\
+          \ will be ignored."
+        enum:
+        - "Default"
+        - "Seat"
+        - "Match"
+      sockets:
+        type: "integer"
+        example: 10
+        description: "The number of game slots on each deployment of this app version."
+        minimum: 1
+      autodeploy:
+        type: "boolean"
+        description: "If a deployment should be made autonomously if there is not\
+          \ enough sockets open on a new session."
+      empty_ttl:
+        type: "integer"
+        example: 60
+        description: "The number of minutes a deployment of this app version can spend\
+          \ with no session connected before being terminated."
+        minimum: 1
+    example:
+      kind: "seat"
+      empty_ttl: 60
+      autodeploy: true
+      sockets: 10
+  AppVersionPort:
+    type: "object"
+    required:
+    - "port"
+    - "protocol"
+    properties:
+      port:
+        type: "integer"
+        example: 5555
+        description: "The Port to Expose your service"
+        minimum: 1
+        maximum: 65535
+      protocol:
+        type: "string"
+        example: "TCP"
+        description: "The Protocol 'TCP' or 'UDP'"
+      to_check:
+        type: "boolean"
+        description: "If the port must be verified by our port validations"
+        default: true
+    example:
+      protocol: "TCP"
+      port: 5555
+      to_check: true
+  AppVersionProbe:
+    type: "object"
+    required:
+    - "optimal_ping"
+    - "rejected_ping"
+    properties:
+      optimal_ping:
+        type: "integer"
+        example: 60
+        description: "Your optimal value for Latency"
+        minimum: 1
+      rejected_ping:
+        type: "integer"
+        example: 180
+        description: "Your reject value for Latency"
+        minimum: 1
+    example:
+      rejected_ping: 180
+      optimal_ping: 60
+  AppVersionEnv:
+    type: "object"
+    required:
+    - "key"
+    - "value"
+    properties:
+      key:
+        type: "string"
+        description: "The Key where the Environment Variable will be set"
+      value:
+        type: "string"
+        description: "The Value to retrieve at the Key"
+      is_secret:
+        type: "boolean"
+        description: "This will encrypt the value in our database, won't be readable\
+          \ by external source"
+    example:
+      is_secret: true
+      value: "value"
+      key: "key"
+  AppCreation:
+    type: "object"
+    properties:
+      success:
+        type: "boolean"
+        description: "If the creation happened correctly"
+      version:
+        $ref: "#/definitions/AppVersion"
+    example:
+      success: true
+      version:
+        time_to_deploy: 30
+        is_active: true
+        docker_tag: "docker_tag"
+        req_cpu: 256
+        whitelisting_active: true
+        req_video: 256
+        private_token: "private_token"
+        req_memory: 256
+        envs:
+        - is_secret: true
+          value: "value"
+          key: "key"
+        - is_secret: true
+          value: "value"
+          key: "key"
+        use_telemetry: true
+        ports:
+        - protocol: "TCP"
+          port: 5555
+          to_check: true
+        - protocol: "TCP"
+          port: 5555
+          to_check: true
+        private_username: "private_username"
+        max_duration: 30
+        cache_max_hour: 13
+        probe:
+          rejected_ping: 180
+          optimal_ping: 60
+        docker_repository: "docker_repository"
+        inject_context_env: true
+        session_config:
+          kind: "seat"
+          empty_ttl: 60
+          autodeploy: true
+          sockets: 10
+        name: "name"
+        force_cache: true
+        cache_min_hour: 1
+        docker_image: "docker_image"
+  AppVersionUpdate:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        description: "The Version Name"
+      is_active:
+        type: "boolean"
+        description: "If the Version is active currently in the system"
+      docker_repository:
+        type: "string"
+        description: "The Repository where the image is (i.e. 'harbor.edgegap.com'\
+          \ or 'docker.io')"
+      docker_image:
+        type: "string"
+        description: "The name of your image (i.e. 'edgegap/demo')"
+      docker_tag:
+        type: "string"
+        description: "The tag of your image (i.e. '0.1.2')"
+      private_username:
+        type: "string"
+        description: "The username to access the docker repository"
+      private_token:
+        type: "string"
+        description: "The Private Password or Token of the username (We recommend\
+          \ to use a token)"
+      req_cpu:
+        type: "integer"
+        example: 256
+        description: "Units of vCPU needed (1024= 1vcpu)"
+        minimum: 100
+      req_memory:
+        type: "integer"
+        example: 256
+        description: "Units of memory in MB needed (1024 = 1GB)"
+        minimum: 100
+      req_video:
+        type: "integer"
+        example: 256
+        description: "Units of GPU needed (1024= 1 GPU)"
+        minimum: 0
+      max_duration:
+        type: "integer"
+        example: 30
+        description: "The Max duration of the game"
+        minimum: 0
+      use_telemetry:
+        type: "boolean"
+        description: "Allow to inject ASA Variables"
+      inject_context_env:
+        type: "boolean"
+        description: "Allow to inject Context Variables"
+      whitelisting_active:
+        type: "boolean"
+        description: "ACL Protection is active"
+      force_cache:
+        type: "boolean"
+        description: "Allow faster deployment by caching your container image in every\
+          \ Edge site"
+      cache_min_hour:
+        type: "integer"
+        description: "Start of the preferred interval for caching your container"
+        minimum: 0
+        maximum: 23
+      cache_max_hour:
+        type: "integer"
+        description: "End of the preferred interval for caching your container"
+        minimum: 0
+        maximum: 23
+      time_to_deploy:
+        type: "integer"
+        example: 30
+        description: "Estimated maximum time in seconds to deploy, after this time\
+          \ we will consider it not working and retry."
+        minimum: 30
+      session_config:
+        description: "Parameters defining the behavior of a session-based app version.\
+          \ If set, the app is considered to be session-based."
+        $ref: "#/definitions/AppVersionUpdateSessionConfig"
+      ports:
+        type: "array"
+        items:
+          $ref: "#/definitions/AppVersionPort"
+      probe:
+        $ref: "#/definitions/AppVersionProbe"
+      envs:
+        type: "array"
+        items:
+          $ref: "#/definitions/AppVersionEnv"
+    example:
+      time_to_deploy: 30
+      is_active: true
+      docker_tag: "docker_tag"
+      req_cpu: 256
+      whitelisting_active: true
+      req_video: 256
+      private_token: "private_token"
+      req_memory: 256
+      envs:
+      - is_secret: true
+        value: "value"
+        key: "key"
+      - is_secret: true
+        value: "value"
+        key: "key"
+      use_telemetry: true
+      ports:
+      - protocol: "TCP"
+        port: 5555
+        to_check: true
+      - protocol: "TCP"
+        port: 5555
+        to_check: true
+      private_username: "private_username"
+      max_duration: 30
+      cache_max_hour: 13
+      probe:
+        rejected_ping: 180
+        optimal_ping: 60
+      docker_repository: "docker_repository"
+      inject_context_env: true
+      session_config:
+        kind: "seat"
+        empty_ttl: 60
+        autodeploy: true
+        sockets: 10
+      name: "name"
+      force_cache: true
+      cache_min_hour: 1
+      docker_image: "docker_image"
+  AppVersionUpdateSessionConfig:
+    type: "object"
+    properties:
+      kind:
+        type: "string"
+        example: "seat"
+        description: "The kind of session to create. If 'Default' if chosen, the application\
+          \ will be handled like a normal application."
+        enum:
+        - "Default"
+        - "Seat"
+        - "Match"
+      sockets:
+        type: "integer"
+        example: 10
+        description: "The number of game slots on each deployment of this app version."
+        minimum: 1
+      autodeploy:
+        type: "boolean"
+        description: "If a deployment should be made autonomously if there is not\
+          \ enough sockets open on a new session."
+      empty_ttl:
+        type: "integer"
+        example: 60
+        description: "The number of minutes a deployment of this app version can spend\
+          \ with no session connected before being terminated."
+        minimum: 1
+    example:
+      kind: "seat"
+      empty_ttl: 60
+      autodeploy: true
+      sockets: 10
+  AppVersionWhitelistEntryPayload:
+    type: "object"
+    required:
+    - "cidr"
+    properties:
+      cidr:
+        type: "string"
+        example: "1.2.3.4/16"
+        description: "CIDR to allow"
+      label:
+        type: "string"
+        example: "Matchmaker"
+        description: "Label to organized your entries"
+      is_active:
+        type: "boolean"
+        description: "If the Rule will be applied on runtime"
+    example:
+      is_active: true
+      cidr: "1.2.3.4/16"
+      label: "Matchmaker"
+  AppVersionWhitelistResponse:
+    type: "object"
+    properties:
+      whitelist_entries:
+        type: "array"
+        items:
+          $ref: "#/definitions/AppVersionWhitelistEntry"
+    example:
+      whitelist_entries:
+      - is_active: true
+        cidr: "1.2.3.4/16"
+        id: "1"
+        label: "Matchmaker"
+      - is_active: true
+        cidr: "1.2.3.4/16"
+        id: "1"
+        label: "Matchmaker"
+  AppVersionWhitelistEntry:
+    type: "object"
+    required:
+    - "cidr"
+    - "id"
+    properties:
+      id:
+        type: "string"
+        example: "1"
+        description: "Unique ID of the entry"
+      cidr:
+        type: "string"
+        example: "1.2.3.4/16"
+        description: "CIDR to allow"
+      label:
+        type: "string"
+        example: "Matchmaker"
+        description: "Label to organized your entries"
+      is_active:
+        type: "boolean"
+        description: "If the Rule will be applied on runtime"
+    example:
+      is_active: true
+      cidr: "1.2.3.4/16"
+      id: "1"
+      label: "Matchmaker"
+  AppVersionWhitelistEntrySuccess:
+    type: "object"
+    required:
+    - "success"
+    properties:
+      success:
+        type: "boolean"
+        description: "if the operation succeed"
+      whitelist_entry:
+        $ref: "#/definitions/AppVersionWhitelistEntry"
+    example:
+      success: true
+      whitelist_entry:
+        is_active: true
+        cidr: "1.2.3.4/16"
+        id: "1"
+        label: "Matchmaker"
+  StaticSitesList:
+    type: "object"
+    properties:
+      sites:
+        type: "array"
+        items:
+          $ref: "#/definitions/StaticSites"
+      total_count:
+        type: "integer"
+        example: 1
+        description: "Total of Sites"
+    example:
+      total_count: 1
+      sites:
+      - public_ip: "1.2.3.4"
+        port: 8080
+        city: "Montreal"
+        latitude: 45.55795640000000190639184438623487949371337890625
+        url: "1.2.3.4:8080"
+        longitude: -73.8703838999999931047568679787218570709228515625
+      - public_ip: "1.2.3.4"
+        port: 8080
+        city: "Montreal"
+        latitude: 45.55795640000000190639184438623487949371337890625
+        url: "1.2.3.4:8080"
+        longitude: -73.8703838999999931047568679787218570709228515625
+  StaticSites:
+    type: "object"
+    required:
+    - "city"
+    - "latitude"
+    - "longitude"
+    - "port"
+    - "public_ip"
+    - "url"
+    properties:
+      url:
+        type: "string"
+        example: "1.2.3.4:8080"
+        description: "The URL to bind to"
+      public_ip:
+        type: "string"
+        example: "1.2.3.4"
+        description: "Public IP of the Site"
+      port:
+        type: "number"
+        example: 8080
+        description: "Port to Bind to"
+      latitude:
+        type: "number"
+        example: 45.55795640000000190639184438623487949371337890625
+        description: "Latitude of the Site"
+      longitude:
+        type: "number"
+        example: -73.8703838999999931047568679787218570709228515625
+        description: "Longitude of the Site"
+      city:
+        type: "string"
+        example: "Montreal"
+        description: "City of the Site"
+    example:
+      public_ip: "1.2.3.4"
+      port: 8080
+      city: "Montreal"
+      latitude: 45.55795640000000190639184438623487949371337890625
+      url: "1.2.3.4:8080"
+      longitude: -73.8703838999999931047568679787218570709228515625
+  Locations:
+    type: "object"
+    properties:
+      locations:
+        type: "array"
+        items:
+          $ref: "#/definitions/Location"
+      messages:
+        type: "array"
+        description: "Extra Messages for the query"
+        items:
+          type: "string"
+    example:
+      messages:
+      - "messages"
+      - "messages"
+      locations:
+      - continent: "North America"
+        country: "Canada"
+        administrative_division: "Quebec"
+        city: "Montreal"
+        timezone: "Eastern Time"
+        latitude: 45.332409699999999475039658136665821075439453125
+        longitude: -73.269362599999993790333974175155162811279296875
+      - continent: "North America"
+        country: "Canada"
+        administrative_division: "Quebec"
+        city: "Montreal"
+        timezone: "Eastern Time"
+        latitude: 45.332409699999999475039658136665821075439453125
+        longitude: -73.269362599999993790333974175155162811279296875
+  Location:
+    type: "object"
+    required:
+    - "administrative_division"
+    - "city"
+    - "continent"
+    - "country"
+    - "latitude"
+    - "longitude"
+    - "timezone"
+    properties:
+      city:
+        type: "string"
+        example: "Montreal"
+        description: "City Name"
+      continent:
+        type: "string"
+        example: "North America"
+        description: "Continent Name"
+      country:
+        type: "string"
+        example: "Canada"
+        description: "Country name"
+      timezone:
+        type: "string"
+        example: "Eastern Time"
+        description: "Timezone name"
+      administrative_division:
+        type: "string"
+        example: "Quebec"
+        description: "Administrative Division"
+      latitude:
+        type: "number"
+        example: 45.332409699999999475039658136665821075439453125
+        description: "The Latitude in decimal"
+      longitude:
+        type: "number"
+        example: -73.269362599999993790333974175155162811279296875
+        description: "The Longitude in decimal"
+    example:
+      continent: "North America"
+      country: "Canada"
+      administrative_division: "Quebec"
+      city: "Montreal"
+      timezone: "Eastern Time"
+      latitude: 45.332409699999999475039658136665821075439453125
+      longitude: -73.269362599999993790333974175155162811279296875
+  SessionGet:
+    type: "object"
+    required:
+    - "app_id"
+    - "create_time"
+    - "custom_id"
+    - "deployment"
+    - "elapsed"
+    - "kind"
+    - "linked"
+    - "ready"
+    - "session_id"
+    - "status"
+    - "user_count"
+    properties:
+      session_id:
+        type: "string"
+        example: "abc123-s"
+        description: "Unique UUID"
+      custom_id:
+        type: "string"
+        example: "custom-abc123"
+        description: "Custom ID if Available"
+      status:
+        type: "string"
+        example: "Status.READY"
+        description: "Current status of the session"
+      ready:
+        type: "boolean"
+        example: true
+        description: "If the session is linked to a ready deployment"
+      linked:
+        type: "boolean"
+        example: true
+        description: "If the session is linked to a deployment"
+      kind:
+        type: "string"
+        example: "DEFAULT | SEATS | MATCH"
+        description: "Type of session created"
+      user_count:
+        type: "integer"
+        example: 10
+        description: "Count of user this session currently have"
+      app_id:
+        type: "integer"
+        description: "App version linked to the session"
+      create_time:
+        type: "string"
+        example: "2021-08-18 20:27:34.219459"
+        description: "Session created at"
+      elapsed:
+        type: "integer"
+        description: "Elapsed time"
+      error:
+        type: "string"
+        description: "Error Detail"
+      session_users:
+        type: "array"
+        description: "Users in the session"
+        items:
+          $ref: "#/definitions/SessionUser"
+      session_ips:
+        type: "array"
+        description: "IPS in the session"
+        items:
+          $ref: "#/definitions/SessionUser"
+      deployment:
+        $ref: "#/definitions/Deployment"
+    example:
+      create_time: "2021-08-18 20:27:34.219459"
+      kind: "DEFAULT | SEATS | MATCH"
+      custom_id: "custom-abc123"
+      session_id: "abc123-s"
+      error: "error"
+      session_ips:
+      - ip: "1.2.3.4"
+        latitude: 1.46581298050294517310021547018550336360931396484375
+        longitude: 5.962133916683182377482808078639209270477294921875
+      - ip: "1.2.3.4"
+        latitude: 1.46581298050294517310021547018550336360931396484375
+        longitude: 5.962133916683182377482808078639209270477294921875
+      session_users:
+      - ip: "1.2.3.4"
+        latitude: 1.46581298050294517310021547018550336360931396484375
+        longitude: 5.962133916683182377482808078639209270477294921875
+      - ip: "1.2.3.4"
+        latitude: 1.46581298050294517310021547018550336360931396484375
+        longitude: 5.962133916683182377482808078639209270477294921875
+      elapsed: 6
+      user_count: 10
+      ready: true
+      app_id: 0
+      status: "Status.READY"
+      linked: true
+      deployment:
+        public_ip: "100.10.0.85"
+        whitelisting_active: true
+        fqdn: "abc123.test.edgegap.com"
+        ready: true
+        location:
+          continent: "North America"
+          country: "Canada"
+          administrative_division: "Quebec"
+          city: "Montreal"
+          timezone: "Eastern Time"
+          latitude: 45.5088879999999988967829267494380474090576171875
+          longitude: -73.56166799999999739156919531524181365966796875
+        sockets: 5
+        ports:
+          "80":
+            external: 31587
+            internal: 80
+            protocol: "TCP"
+          "443":
+            external: 31669
+            internal: 433
+            protocol: "TCP"
+        request_id: "abc123"
+        status: "Status.READY"
+        tags:
+        - "production"
+        - "production"
+        sockets_usage: 2
+  SessionUser:
+    type: "object"
+    required:
+    - "ip"
+    properties:
+      ip:
+        type: "string"
+        example: "1.2.3.4"
+        description: "Ip of the user connected to the Session"
+      latitude:
+        type: "number"
+        description: "Latitude"
+      longitude:
+        type: "number"
+        description: "Longitude"
+    example:
+      ip: "1.2.3.4"
+      latitude: 1.46581298050294517310021547018550336360931396484375
+      longitude: 5.962133916683182377482808078639209270477294921875
+  SessionModel:
+    type: "object"
+    required:
+    - "app_name"
+    properties:
+      app_name:
+        type: "string"
+        description: "The Name of the App you want to deploy, example: \n\n\tsupermario"
+      version_name:
+        type: "string"
+        description: "The Name of the App Version you want to deploy, example: \n\n\
+          \tv1.0"
+      ip_list:
+        type: "array"
+        description: "The List of IP of your user, Array of String, example: \n\n\t\
+          \ [\"162.254.103.13\",\"198.12.116.39\", \"162.254.135.39\", \"162.254.129.34\"\
+          ]"
+        items:
+          type: "string"
+          example: "1.2.3.4"
+      geo_ip_list:
+        type: "array"
+        description: "The list of IP of your user with their location (latitude, longitude)"
+        items:
+          $ref: "#/definitions/GeoIpListModel"
+      deployment_request_id:
+        type: "string"
+        description: "The request id of your deployment. If specified, the session\
+          \ will link to the deployment"
+      location:
+        description: "If you want to specify a centroid for your session."
+        $ref: "#/definitions/LocationModel"
+      city:
+        type: "string"
+        example: "Montreal"
+        description: "If you want your session in a specific city"
+      country:
+        type: "string"
+        example: "Canada"
+        description: "If you want your session in a specific country"
+      continent:
+        type: "string"
+        example: "North America"
+        description: "If you want your session in a specific continent"
+      administrative_division:
+        type: "string"
+        example: "Quebec"
+        description: "If you want your session in a specific administrative division"
+      region:
+        type: "string"
+        description: "If you want your session in a specific region"
+    example:
+      deployment_request_id: "deployment_request_id"
+      continent: "North America"
+      app_name: "app_name"
+      country: "Canada"
+      version_name: "version_name"
+      administrative_division: "Quebec"
+      city: "Montreal"
+      location:
+        latitude: 1.46581298050294517310021547018550336360931396484375
+        longitude: 5.962133916683182377482808078639209270477294921875
+      geo_ip_list:
+      - ip: "ip"
+        latitude: 0.80082819046101150206595775671303272247314453125
+        longitude: 6.02745618307040320615897144307382404804229736328125
+      - ip: "ip"
+        latitude: 0.80082819046101150206595775671303272247314453125
+        longitude: 6.02745618307040320615897144307382404804229736328125
+      ip_list:
+      - "1.2.3.4"
+      - "1.2.3.4"
+      region: "region"
+  SessionRequest:
+    type: "object"
+    required:
+    - "app"
+    - "session_id"
+    - "version"
+    properties:
+      session_id:
+        type: "string"
+        example: "abc123-s"
+        description: "The Unique Identifier of the Session"
+      custom_id:
+        type: "string"
+        example: "custom-abc123"
+        description: "Custom ID if Available"
+      app:
+        type: "string"
+        example: "demo"
+        description: "The Name of the App you requested"
+      version:
+        type: "string"
+        description: "The name of the App Version you requested"
+      deployment_request_id:
+        type: "string"
+        description: "The Name of the App Version you want to deploy, example: \n\n\
+          \tv1.0"
+    example:
+      app: "demo"
+      deployment_request_id: "deployment_request_id"
+      custom_id: "custom-abc123"
+      session_id: "abc123-s"
+      version: "version"
+  PatchSessionModel:
+    type: "object"
+    required:
+    - "ip_list"
+    properties:
+      ip_list:
+        type: "array"
+        description: "The List of IP of your user, Array of String, example: \n\n\t\
+          \ [\"162.254.103.13\",\"198.12.116.39\", \"162.254.135.39\", \"162.254.129.34\"\
+          ]"
+        items:
+          type: "string"
+          example: "1.2.3.4"
+    example:
+      ip_list:
+      - "1.2.3.4"
+      - "1.2.3.4"
+  SessionUserContext:
+    type: "object"
+    required:
+    - "session_users"
+    properties:
+      session_users:
+        type: "array"
+        description: "Users in the session"
+        items:
+          $ref: "#/definitions/SessionUser"
+    example:
+      session_users:
+      - ip: "1.2.3.4"
+        latitude: 1.46581298050294517310021547018550336360931396484375
+        longitude: 5.962133916683182377482808078639209270477294921875
+      - ip: "1.2.3.4"
+        latitude: 1.46581298050294517310021547018550336360931396484375
+        longitude: 5.962133916683182377482808078639209270477294921875
+  Sessions:
+    type: "object"
+    properties:
+      data:
+        type: "array"
+        description: "List of Active Sessions"
+        items:
+          $ref: "#/definitions/SessionContext"
+      total_count:
+        type: "integer"
+        description: "Total Session in the Database"
+      pagination:
+        description: "Pagination Object"
+        $ref: "#/definitions/Pagination"
+    example:
+      pagination:
+        number: 6
+        has_previous: true
+        next_page_number: 1
+        has_next: true
+        paginator:
+          num_pages: 5
+        previous_page_number: 5
+      data:
+      - deployment_request_id: "abc123"
+        user_count: 10
+        ready: true
+        kind: "DEFAULT | SEATS | MATCH"
+        custom_id: "custom-abc123"
+        session_id: "abc123-s"
+        status: "Status.READY"
+        linked: true
+      - deployment_request_id: "abc123"
+        user_count: 10
+        ready: true
+        kind: "DEFAULT | SEATS | MATCH"
+        custom_id: "custom-abc123"
+        session_id: "abc123-s"
+        status: "Status.READY"
+        linked: true
+      total_count: 0
+  SessionContext:
+    type: "object"
+    required:
+    - "custom_id"
+    - "deployment_request_id"
+    - "kind"
+    - "linked"
+    - "ready"
+    - "session_id"
+    - "status"
+    - "user_count"
+    properties:
+      session_id:
+        type: "string"
+        example: "abc123-s"
+        description: "Unique UUID"
+      custom_id:
+        type: "string"
+        example: "custom-abc123"
+        description: "Custom ID if Available"
+      status:
+        type: "string"
+        example: "Status.READY"
+        description: "Current status of the session"
+      ready:
+        type: "boolean"
+        example: true
+        description: "If the session is linked to a Ready deployment"
+      linked:
+        type: "boolean"
+        example: true
+        description: "If the session is linked to a deployment"
+      kind:
+        type: "string"
+        example: "DEFAULT | SEATS | MATCH"
+        description: "Type of session created"
+      user_count:
+        type: "integer"
+        example: 10
+        description: "Count of user this session currently have"
+      deployment_request_id:
+        type: "string"
+        example: "abc123"
+        description: "Unique UUID"
+    example:
+      deployment_request_id: "abc123"
+      user_count: 10
+      ready: true
+      kind: "DEFAULT | SEATS | MATCH"
+      custom_id: "custom-abc123"
+      session_id: "abc123-s"
+      status: "Status.READY"
+      linked: true
+  MetricsResponse:
+    type: "object"
+    properties:
+      total:
+        $ref: "#/definitions/TotalMetricsModel"
+      cpu:
+        $ref: "#/definitions/MetricsModel"
+      mem:
+        $ref: "#/definitions/MetricsModel"
+      network:
+        $ref: "#/definitions/NetworkMetricsModel"
+    example:
+      total:
+        disk_write_total:
+          timestamps:
+          - "2021-07-14 14:17:37.711"
+          - "2021-07-14 14:17:37.711"
+          datasets:
+          - 2458
+          - 2458
+          labels:
+          - "00:00:00"
+          - "00:00:00"
+        receive_total:
+          timestamps:
+          - "2021-07-14 14:17:37.711"
+          - "2021-07-14 14:17:37.711"
+          datasets:
+          - 2458
+          - 2458
+          labels:
+          - "00:00:00"
+          - "00:00:00"
+        transmit_total:
+          timestamps:
+          - "2021-07-14 14:17:37.711"
+          - "2021-07-14 14:17:37.711"
+          datasets:
+          - 2458
+          - 2458
+          labels:
+          - "00:00:00"
+          - "00:00:00"
+        disk_read_total:
+          timestamps:
+          - "2021-07-14 14:17:37.711"
+          - "2021-07-14 14:17:37.711"
+          datasets:
+          - 2458
+          - 2458
+          labels:
+          - "00:00:00"
+          - "00:00:00"
+      mem:
+        timestamps:
+        - "2021-07-14 14:17:37.711"
+        - "2021-07-14 14:17:37.711"
+        datasets:
+        - 2458
+        - 2458
+        labels:
+        - "00:00:00"
+        - "00:00:00"
+      cpu:
+        timestamps:
+        - "2021-07-14 14:17:37.711"
+        - "2021-07-14 14:17:37.711"
+        datasets:
+        - 2458
+        - 2458
+        labels:
+        - "00:00:00"
+        - "00:00:00"
+      network:
+        receive:
+          timestamps:
+          - "2021-07-14 14:17:37.711"
+          - "2021-07-14 14:17:37.711"
+          datasets:
+          - 2458
+          - 2458
+          labels:
+          - "00:00:00"
+          - "00:00:00"
+        transmit:
+          timestamps:
+          - "2021-07-14 14:17:37.711"
+          - "2021-07-14 14:17:37.711"
+          datasets:
+          - 2458
+          - 2458
+          labels:
+          - "00:00:00"
+          - "00:00:00"
+  TotalMetricsModel:
+    type: "object"
+    properties:
+      receive_total:
+        $ref: "#/definitions/MetricsModel"
+      transmit_total:
+        $ref: "#/definitions/MetricsModel"
+      disk_read_total:
+        $ref: "#/definitions/MetricsModel"
+      disk_write_total:
+        $ref: "#/definitions/MetricsModel"
+    example:
+      disk_write_total:
+        timestamps:
+        - "2021-07-14 14:17:37.711"
+        - "2021-07-14 14:17:37.711"
+        datasets:
+        - 2458
+        - 2458
+        labels:
+        - "00:00:00"
+        - "00:00:00"
+      receive_total:
+        timestamps:
+        - "2021-07-14 14:17:37.711"
+        - "2021-07-14 14:17:37.711"
+        datasets:
+        - 2458
+        - 2458
+        labels:
+        - "00:00:00"
+        - "00:00:00"
+      transmit_total:
+        timestamps:
+        - "2021-07-14 14:17:37.711"
+        - "2021-07-14 14:17:37.711"
+        datasets:
+        - 2458
+        - 2458
+        labels:
+        - "00:00:00"
+        - "00:00:00"
+      disk_read_total:
+        timestamps:
+        - "2021-07-14 14:17:37.711"
+        - "2021-07-14 14:17:37.711"
+        datasets:
+        - 2458
+        - 2458
+        labels:
+        - "00:00:00"
+        - "00:00:00"
+  MetricsModel:
+    type: "object"
+    properties:
+      labels:
+        type: "array"
+        items:
+          type: "string"
+          example: "00:00:00"
+      datasets:
+        type: "array"
+        items:
+          type: "number"
+          example: 2458
+      timestamps:
+        type: "array"
+        items:
+          type: "string"
+          format: "date"
+          example: "2021-07-14 14:17:37.711"
+    example:
+      timestamps:
+      - "2021-07-14 14:17:37.711"
+      - "2021-07-14 14:17:37.711"
+      datasets:
+      - 2458
+      - 2458
+      labels:
+      - "00:00:00"
+      - "00:00:00"
+  NetworkMetricsModel:
+    type: "object"
+    properties:
+      receive:
+        $ref: "#/definitions/MetricsModel"
+      transmit:
+        $ref: "#/definitions/MetricsModel"
+    example:
+      receive:
+        timestamps:
+        - "2021-07-14 14:17:37.711"
+        - "2021-07-14 14:17:37.711"
+        datasets:
+        - 2458
+        - 2458
+        labels:
+        - "00:00:00"
+        - "00:00:00"
+      transmit:
+        timestamps:
+        - "2021-07-14 14:17:37.711"
+        - "2021-07-14 14:17:37.711"
+        datasets:
+        - 2458
+        - 2458
+        labels:
+        - "00:00:00"
+        - "00:00:00"
+  CustomSessionModel:
+    type: "object"
+    required:
+    - "ip_list"
+    properties:
+      ip_list:
+        type: "array"
+        description: "The List of IP of your user, Array of String, example: \n\n\t\
+          \ [\"162.254.103.13\",\"198.12.116.39\", \"162.254.135.39\", \"162.254.129.34\"\
+          ]"
+        items:
+          type: "string"
+          example: "1.2.3.4"
+    example:
+      ip_list:
+      - "1.2.3.4"
+      - "1.2.3.4"
+  CustomBulkSessionsModel:
+    type: "object"
+    properties:
+      sessions:
+        type: "array"
+        items:
+          $ref: "#/definitions/CustomBulkSessionModel"
+    example:
+      sessions:
+      - custom_id: "custom_id"
+        ip_list:
+        - "1.2.3.4"
+        - "1.2.3.4"
+      - custom_id: "custom_id"
+        ip_list:
+        - "1.2.3.4"
+        - "1.2.3.4"
+  CustomBulkSessionModel:
+    type: "object"
+    required:
+    - "custom_id"
+    - "ip_list"
+    properties:
+      custom_id:
+        type: "string"
+        description: "Custom Session ID"
+      ip_list:
+        type: "array"
+        description: "The List of IP of your user, Array of String, example: \n\n\t\
+          \ [\"162.254.103.13\",\"198.12.116.39\", \"162.254.135.39\", \"162.254.129.34\"\
+          ]"
+        items:
+          type: "string"
+          example: "1.2.3.4"
+    example:
+      custom_id: "custom_id"
+      ip_list:
+      - "1.2.3.4"
+      - "1.2.3.4"
+  CustomSessionDeleteModel:
+    type: "object"
+    required:
+    - "sessions"
+    properties:
+      sessions:
+        type: "array"
+        description: "List of Custom IDs to Delete"
+        items:
+          type: "string"
+          example: "custom-abc123"
+    example:
+      sessions:
+      - "custom-abc123"
+      - "custom-abc123"
+  BulkSessionPost:
+    type: "object"
+    required:
+    - "errors"
+    - "sessions"
+    properties:
+      sessions:
+        type: "array"
+        description: "List of Creation Reply"
+        items:
+          $ref: "#/definitions/SessionRequest"
+      errors:
+        type: "array"
+        description: "List of Creation Errors Reply"
+        items:
+          type: "string"
+    example:
+      sessions:
+      - app: "demo"
+        deployment_request_id: "deployment_request_id"
+        custom_id: "custom-abc123"
+        session_id: "abc123-s"
+        version: "version"
+      - app: "demo"
+        deployment_request_id: "deployment_request_id"
+        custom_id: "custom-abc123"
+        session_id: "abc123-s"
+        version: "version"
+      errors:
+      - "errors"
+      - "errors"
+  BulkSessionDelete:
+    type: "object"
+    required:
+    - "errors"
+    - "sessions"
+    properties:
+      sessions:
+        type: "array"
+        description: "List of Delete"
+        items:
+          $ref: "#/definitions/Delete"
+      errors:
+        type: "array"
+        description: "List of Delete Errors"
+        items:
+          type: "string"
+    example:
+      sessions:
+      - custom_id: "custom-abc123"
+        session_id: "abc123-s"
+        message: "Instance 93924761ccde will be deleted"
+      - custom_id: "custom-abc123"
+        session_id: "abc123-s"
+        message: "Instance 93924761ccde will be deleted"
+      errors:
+      - "errors"
+      - "errors"
+  Monitor:
+    type: "object"
+    required:
+    - "host"
+    - "host_url"
+    - "name"
+    - "spec_url"
+    - "version"
+    properties:
+      name:
+        type: "string"
+        description: "API Name"
+      version:
+        type: "string"
+        description: "API Version"
+      host:
+        type: "string"
+        description: "API Host"
+      host_url:
+        type: "string"
+        description: "API Host URL"
+      spec_url:
+        type: "string"
+        description: "API Swagger Specification Location"
+      messages:
+        type: "array"
+        description: "API Messages"
+        items:
+          type: "string"
+      errors:
+        type: "array"
+        description: "API Errors"
+        items:
+          type: "string"
+    example:
+      spec_url: "spec_url"
+      host_url: "host_url"
+      name: "name"
+      host: "host"
+      messages:
+      - "messages"
+      - "messages"
+      version: "version"
+      errors:
+      - "errors"
+      - "errors"
+responses:
+  ParseError:
+    description: "When a mask can't be parsed"
+  MaskError:
+    description: "When any error occurs on mask"

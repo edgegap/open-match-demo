@@ -1,0 +1,105 @@
+# Front End Component
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basics-front-end
+  namespace: open-match
+  labels:
+    app: basics-front-end
+    component: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basics-front-end
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app: basics-front-end
+        component: frontend
+    spec:
+      containers:
+      - name: basics-front-end
+        image: edgegap-om-tuto-frontend:tuto
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: basics-front-end
+  namespace: open-match
+spec:
+  type: LoadBalancer
+  selector:
+    app: basics-front-end
+    component: frontend
+  type: LoadBalancer
+  ports:
+  - port: 51504
+    targetPort: 51504
+---
+# Match Function component
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basics-match-function
+  namespace: open-match
+  labels:
+    app: basics-match-function
+    component: matchfunction
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basics-match-function
+      component: matchfunction
+  template:
+    metadata:
+      labels:
+        app: basics-match-function
+        component: matchfunction
+    spec:
+      containers:
+      - name: basics-match-function
+        image: edgegap-om-tuto-match-function:tuto
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: basics-match-function
+  namespace: open-match
+  labels:
+    app: basics-match-function
+    component: matchfunction
+spec:
+  selector:
+    app: basics-match-function
+    component: matchfunction
+  type: ClusterIP
+  ports:
+  - name: grpc
+    protocol: TCP
+    port: 50502
+    targetPort: 50502
+---
+# Director component
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basics-director
+  namespace: open-match
+  labels:
+    app: basics-director
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basics-director
+  template:
+    metadata:
+      labels:
+        app: basics-director
+    spec:
+      containers:
+      - name: basics-director
+        image: edgegap-om-tuto-director:tuto

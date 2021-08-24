@@ -1,0 +1,11 @@
+# AppVersionProbe
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**OptimalPing** | **int32** | Your optimal value for Latency | [default to null]
+**RejectedPing** | **int32** | Your reject value for Latency | [default to null]
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
