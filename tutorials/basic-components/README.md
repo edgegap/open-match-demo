@@ -5,7 +5,7 @@
 * [Getting Started](#getting-started)
     * [Prerequisites](#prerequisites)
     * [Installation](#installation)
-* [License](#license)
+* [Acknowledgements](#acknowledgements)
 
 
 
@@ -19,20 +19,12 @@ This is the source code associated with [this](https://docs.edgegap.com/docs/ope
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
 * [Install](https://golang.org/dl/) Golang on your computer
 * Install [Docker](https://docs.docker.com/docker-for-windows/install/)
 * Having a Kubernetes ecosystem available _([Docker Desktop includes a standalone Kubernetes server and client](https://docs.docker.com/docker-for-windows/kubernetes/))_
-* Change the variables in ***.\director\main.go***
-    * gameServerPort
-    * appName
-    * appVersion
-    * arbitriumAPI
-    * apiToken
+
 
 ### Installation
 
