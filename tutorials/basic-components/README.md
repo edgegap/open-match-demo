@@ -5,6 +5,7 @@
 * [Getting Started](#getting-started)
     * [Prerequisites](#prerequisites)
     * [Installation](#installation)
+    * [How to use it](#how-to-use-it)
 * [Acknowledgements](#acknowledgements)
 
 
@@ -68,6 +69,10 @@ This is the source code associated with [this](https://docs.edgegap.com/docs/ope
     ```ps1
     delete.bat
     ```
+
+### How to use it
+
+You can learn how to use your matchmaker [here](https://docs.edgegap.com/docs/openmatch/tutorials/basic/open-match-tutorial-basics-how-to-use-it)
 
 
 ## Acknowledgements
