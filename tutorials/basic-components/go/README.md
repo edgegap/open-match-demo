@@ -35,7 +35,7 @@ This is the source code associated with [this](https://docs.edgegap.com/docs/ope
    ```
 2. Go to the tutorial's folder
    ```sh
-   cd [PATH_TO_PROJECT]/tutorials/basic-components
+   cd [PATH_TO_PROJECT]/tutorials/basic-components/go
    ```
 3. In ***./director/main.go*** change the variables to put your values.
     ```go
