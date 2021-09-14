@@ -1,5 +1,5 @@
 using System.Net;
-using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace front_end
 {
@@ -10,6 +10,7 @@ namespace front_end
 
     public struct CreateTicketPayload
     {
+        [JsonPropertyName("mode")]
         public string Mode { get; set; }
     }
 
@@ -22,22 +23,28 @@ namespace front_end
     {
         public struct SearchFields
         {
-            public string[] tags { get; set; }
+            [JsonPropertyName("tags")]
+            public string[] Tags { get; set; }
         }
 
         public struct Extension
         {
-            public string type_url { get; set; }
-            public string value { get; set; }
+            [JsonPropertyName("type_url")]
+            public string TypeUrl { get; set; }
+            [JsonPropertyName("value")]
+            public string Value { get; set; }
         }
 
         public struct Ticket
         {
-            public SearchFields search_fields { get; set; }
-            public Dictionary<string, Extension> extensions { get; set; }
+            [JsonPropertyName("search_fields")]
+            public SearchFields SearchFields { get; set; }
+            [JsonPropertyName("extensions")]
+            public Dictionary<string, Extension> Extensions { get; set; }
         }
 
-        public Ticket ticket { get; set; }
+        [JsonPropertyName("ticket")]
+        public Ticket CreatedTicket { get; set; }
     }
 
     public class CreateTicket
@@ -73,17 +80,17 @@ namespace front_end
             // Creating the payload
             OpenMatchCreateTicketPayload body = new OpenMatchCreateTicketPayload
             {
-                ticket = new OpenMatchCreateTicketPayload.Ticket
+                CreatedTicket = new OpenMatchCreateTicketPayload.Ticket
                 {
-                    search_fields = new OpenMatchCreateTicketPayload.SearchFields { tags = new string[] { mode } },
-                    extensions = new Dictionary<string, OpenMatchCreateTicketPayload.Extension>
+                    SearchFields = new OpenMatchCreateTicketPayload.SearchFields { Tags = new string[] { mode } },
+                    Extensions = new Dictionary<string, OpenMatchCreateTicketPayload.Extension>
                         {
                             {
                                 "playerIp",
                                 new OpenMatchCreateTicketPayload.Extension
                                 {
-                                    type_url = "type.googleapis.com/google.protobuf.StringValue",
-                                    value = playerIPBase64
+                                    TypeUrl = "type.googleapis.com/google.protobuf.StringValue",
+                                    Value = playerIPBase64
                                 }
                             }
                         }
