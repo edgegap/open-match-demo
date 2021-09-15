@@ -1,5 +1,5 @@
 # Building Image with SKD/Runtime
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS BuildImage
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-preview.7 AS BuildImage
 
 # Publish App for linux-x64
 COPY . /app
