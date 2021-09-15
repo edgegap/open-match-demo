@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace front_end
 {
+    // All the constants used in the program
     public static class Constant
     {
         public static string OpenMatchFrontendService => "open-match-frontend:51504";
@@ -19,32 +20,37 @@ namespace front_end
      * We recommend generating an SDK with the Open Match's OpenAPI specification.
      * https://open-match.dev/site/swaggerui/index.html#/
      */
-    public struct OpenMatchCreateTicketPayload
+
+    // Based On OpenMatchCreateTicketRequest in https://open-match.dev/site/swaggerui/index.html?urls.primaryName=Frontend
+    public struct OpenMatchCreateTicketRequest
     {
-        public struct SearchFields
-        {
-            [JsonPropertyName("tags")]
-            public string[] Tags { get; set; }
-        }
-
-        public struct Extension
-        {
-            [JsonPropertyName("type_url")]
-            public string TypeUrl { get; set; }
-            [JsonPropertyName("value")]
-            public string Value { get; set; }
-        }
-
-        public struct Ticket
-        {
-            [JsonPropertyName("search_fields")]
-            public SearchFields SearchFields { get; set; }
-            [JsonPropertyName("extensions")]
-            public Dictionary<string, Extension> Extensions { get; set; }
-        }
-
         [JsonPropertyName("ticket")]
-        public Ticket CreatedTicket { get; set; }
+        public OpenMatchTicket Ticket { get; set; }
+    }
+
+    // Based On OpenMatchTicket in https://open-match.dev/site/swaggerui/index.html?urls.primaryName=Frontend
+    public struct OpenMatchTicket
+    {
+        [JsonPropertyName("search_fields")]
+        public OpenMatchSearchFields SearchFields { get; set; }
+        [JsonPropertyName("extensions")]
+        public Dictionary<string, ProtobufAny> Extensions { get; set; }
+    }
+
+    // Based On OpenMatchSearchFields in https://open-match.dev/site/swaggerui/index.html?urls.primaryName=Frontend
+    public struct OpenMatchSearchFields
+    {
+        [JsonPropertyName("tags")]
+        public string[] Tags { get; set; }
+    }
+
+    // Based On ProtobufAny in https://open-match.dev/site/swaggerui/index.html?urls.primaryName=Frontend
+    public struct ProtobufAny
+    {
+        [JsonPropertyName("type_url")]
+        public string TypeUrl { get; set; }
+        [JsonPropertyName("value")]
+        public string Value { get; set; }
     }
 
     public class CreateTicket
@@ -78,16 +84,16 @@ namespace front_end
             string playerIPBase64 = Convert.ToBase64String(playerIPBytes);
 
             // Creating the payload
-            OpenMatchCreateTicketPayload body = new OpenMatchCreateTicketPayload
+            OpenMatchCreateTicketRequest body = new OpenMatchCreateTicketRequest
             {
-                CreatedTicket = new OpenMatchCreateTicketPayload.Ticket
+                Ticket = new OpenMatchTicket
                 {
-                    SearchFields = new OpenMatchCreateTicketPayload.SearchFields { Tags = new string[] { mode } },
-                    Extensions = new Dictionary<string, OpenMatchCreateTicketPayload.Extension>
+                    SearchFields = new OpenMatchSearchFields { Tags = new string[] { mode } },
+                    Extensions = new Dictionary<string, ProtobufAny>
                         {
                             {
                                 "playerIp",
-                                new OpenMatchCreateTicketPayload.Extension
+                                new ProtobufAny
                                 {
                                     TypeUrl = "type.googleapis.com/google.protobuf.StringValue",
                                     Value = playerIPBase64
