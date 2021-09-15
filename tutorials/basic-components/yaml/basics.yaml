@@ -81,6 +81,10 @@ spec:
     protocol: TCP
     port: 50502
     targetPort: 50502
+  - name: http
+    protocol: TCP
+    port: 51502
+    targetPort: 51502
 ---
 # Director component
 apiVersion: apps/v1
