@@ -1020,7 +1020,7 @@ metadata:
     component: backend
     release: open-match
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: open-match
@@ -1104,7 +1104,7 @@ metadata:
     component: frontend
     release: open-match
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: open-match
@@ -1188,7 +1188,7 @@ metadata:
     component: query
     release: open-match
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: open-match

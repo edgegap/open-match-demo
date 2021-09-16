@@ -1,68 +1,31 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using System.Net;
-using System.Text.Json.Serialization;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 
 namespace front_end
 {
     // All the constants used in the program
     public static class Constant
     {
+        // Link inside kubernetes
         public static string OpenMatchFrontendService => "open-match-frontend:51504";
-    }
-
-    public struct CreateTicketPayload
-    {
-        [JsonPropertyName("mode")]
-        public string Mode { get; set; }
-    }
-
-    /**
-     * We create these structs for the tutorial. 
-     * We recommend generating an SDK with the Open Match's OpenAPI specification.
-     * https://open-match.dev/site/swaggerui/index.html#/
-     */
-
-    // Based On OpenMatchCreateTicketRequest in https://open-match.dev/site/swaggerui/index.html?urls.primaryName=Frontend
-    public struct OpenMatchCreateTicketRequest
-    {
-        [JsonPropertyName("ticket")]
-        public OpenMatchTicket Ticket { get; set; }
-    }
-
-    // Based On OpenMatchTicket in https://open-match.dev/site/swaggerui/index.html?urls.primaryName=Frontend
-    public struct OpenMatchTicket
-    {
-        [JsonPropertyName("search_fields")]
-        public OpenMatchSearchFields SearchFields { get; set; }
-        [JsonPropertyName("extensions")]
-        public Dictionary<string, ProtobufAny> Extensions { get; set; }
-    }
-
-    // Based On OpenMatchSearchFields in https://open-match.dev/site/swaggerui/index.html?urls.primaryName=Frontend
-    public struct OpenMatchSearchFields
-    {
-        [JsonPropertyName("tags")]
-        public string[] Tags { get; set; }
-    }
-
-    // Based On ProtobufAny in https://open-match.dev/site/swaggerui/index.html?urls.primaryName=Frontend
-    public struct ProtobufAny
-    {
-        [JsonPropertyName("type_url")]
-        public string TypeUrl { get; set; }
-        [JsonPropertyName("value")]
-        public string Value { get; set; }
     }
 
     public class CreateTicket
     {
-        public static async Task Handle(HttpContext context)
+        public static async Task Handle(HttpContext context, ILogger logger)
         {
-            Console.WriteLine("Creating ticket...");
+            logger.LogInformation("Creating ticket...");
 
             // Get The player IP. This will be used later to make a call at Arbitrium (Edgegap's solution)
-            IPAddress? playerIP = GetIPAddress(context);
+            IPAddress? playerIP = context.Connection.RemoteIpAddress?.MapToIPv4();
 
-            // Get the payload of the request
+            // Bind the request JSON body to our model
             CreateTicketPayload payload = await context.Request.ReadFromJsonAsync<CreateTicketPayload>();
 
             string response = await CreateTicketToOpenMatch(payload.Mode, playerIP?.ToString() ?? "0.0.0.0");
@@ -71,32 +34,34 @@ namespace front_end
             await context.Response.WriteAsync(response);
         }
 
-        private static IPAddress? GetIPAddress(HttpContext context) => context.Connection.RemoteIpAddress;
-
+        /// <summary>
+        /// Create a ticket by communicating with Open Match core Front End service
+        /// </summary>
         private static async Task<string> CreateTicketToOpenMatch(string mode, string playerIP)
         {
-            // Making a request to Open Match Front End. In an production environment, we recommend using a generated SDK
-            // from Open Match's OpenAPI specification.
-            // https://open-match.dev/site/swaggerui/index.html#/
             HttpClient client = new HttpClient();
 
             byte[] playerIPBytes = System.Text.Encoding.UTF8.GetBytes(playerIP);
-            string playerIPBase64 = Convert.ToBase64String(playerIPBytes);
 
             // Creating the payload
             OpenMatchCreateTicketRequest body = new OpenMatchCreateTicketRequest
             {
                 Ticket = new OpenMatchTicket
                 {
+                    // Tags can support multiple values but for simplicity, the demo function
+                    // assumes only single mode selection per Ticket.
                     SearchFields = new OpenMatchSearchFields { Tags = new string[] { mode } },
+                    // Adding player IP to create the game server later using Arbitrium (Edgegap's solution)
+                    // You can add other values in extensions. Those values will be ignored by Open Match. They are meant tu use by the developper. 
+                    // Find all valid type here: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf
                     Extensions = new Dictionary<string, ProtobufAny>
                         {
                             {
                                 "playerIp",
                                 new ProtobufAny
                                 {
-                                    TypeUrl = "type.googleapis.com/google.protobuf.StringValue",
-                                    Value = playerIPBase64
+                                    TypeUrl = "google.protobuf.StringValue",
+                                    Value = playerIPBytes
                                 }
                             }
                         }
@@ -152,15 +117,12 @@ namespace front_end
     {
         public static async Task Handle(HttpContext context, string ticketId)
         {
-            // Making a request to Open Match Front End. In an production environment, we recommend using a generated SDK
-            // from Open Match's OpenAPI specification.
-            // https://open-match.dev/site/swaggerui/index.html#/
             HttpClient client = new HttpClient();
 
             // Sending the request to Open Match Front End
             HttpResponseMessage response = await client.DeleteAsync($"http://{Constant.OpenMatchFrontendService}/v1/frontendservice/tickets/{ticketId}");
 
-            // Check if we were able to Get the ticket
+            // Check if we were able to Delete the ticket
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 string msg = $"ERROR - Was not able to delete ticket {ticketId}: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}";

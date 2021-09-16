@@ -76,7 +76,7 @@ func createTicket(echoContext echo.Context) error {
 			},
 			Extensions: map[string]*any.Any{
 				// Adding player IP to create the game server later using Arbitrium (Edgegap's solution)
-				// You can add other values in extensions. Those values will be ignored by Open Match. They are meant tu use by the developper.
+				// You can add other values in extensions. Those values will be ignored by Open Match. They are meant to use by the developper.
 				// Find all valid type here: https://developers.google.com/protocol-buffers/docs/reference/google.protobuf
 				"playerIp": {
 					TypeUrl: "type.googleapis.com/google.protobuf.StringValue",

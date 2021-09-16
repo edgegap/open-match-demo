@@ -1,10 +1,10 @@
-using System;
-using front_end;
+using match_function;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +21,6 @@ builder.Services.AddSingleton<ILogger>(logger);
 
 var app = builder.Build();
 
-app.UseForwardedHeaders();
 
 if (app.Environment.IsDevelopment())
 {
@@ -42,16 +41,7 @@ app.Use(async (context, next) =>
     }
 });
 
-app.MapGet("/", () => "Hello World!");
-
-// Handle POST requests to create a ticket
-app.MapPost("/v1/tickets", CreateTicket.Handle);
-
-// Handle GET requests to get a ticket
-app.MapGet("/v1/tickets/{ticketId}", GetTicket.Handle);
-
-// Handle DELETE requests to delete a ticket
-app.MapDelete("/v1/tickets/{ticketId}", DeleteTicket.Handle);
-
+// Handle the creation of match proposals
+app.MapPost("/v1/matchfunction:run", MatchFunction.Handle);
 
 app.Run();
