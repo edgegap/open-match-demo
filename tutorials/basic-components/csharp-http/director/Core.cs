@@ -36,7 +36,7 @@ namespace director
             while (true)
             {
                 logger.LogInformation("Creating matches...");
-                MatchPlayers().Wait();
+                MatchPlayers();
                 Thread.Sleep(5000);
             }
         }
