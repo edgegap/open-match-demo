@@ -24,7 +24,7 @@ const (
 	appVersion     = "<APP_VERSION>" // E.G. V1
 	// You MUST have a forward slash (/) at the end of your URL
 	arbitriumAPI = "<ARBITRIUM_API>" // E.G. https://api.edgegap.com/
-	// You MUST NOT have token in your API token
+	// You MUST NOT have "token" in your API token
 	// token 08230a25-0fdb-4f56-917b-0a58ec35cbaf INVALID
 	// 08230a25-0fdb-4f56-917b-0a58ec35cbaf VALID
 	apiToken = "<API_TOKEN>" // E.G. 1111aa11aa11111a1aa11111d111a111111111a1
