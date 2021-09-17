@@ -22,7 +22,7 @@ This is the source code associated with [this](https://docs.edgegap.com/docs/ope
 
 ### Prerequisites
 
-* [Install](https://golang.org/dl/) Golang on your computer
+* [Install](https://dotnet.microsoft.com/download/dotnet/6.0) **Dotnet 6.0 SDK/Runtime** on your compute. (*Only if you need to compile/run it locally outside of docker*)
 * Install [Docker](https://docs.docker.com/docker-for-windows/install/)
 * Having a Kubernetes ecosystem available _([Docker Desktop includes a standalone Kubernetes server and client](https://docs.docker.com/docker-for-windows/kubernetes/))_
 
@@ -35,16 +35,23 @@ This is the source code associated with [this](https://docs.edgegap.com/docs/ope
    ```
 2. Go to the tutorial's folder
    ```sh
-   cd [PATH_TO_PROJECT]/tutorials/basic-components
+   cd [PATH_TO_PROJECT]/tutorials/basic-components/csharp-http
    ```
-3. In ***./director/main.go*** change the variables to put your values.
-    ```go
+3. In ***./director/Core.cs*** change the variables to put your values.
+    ```cs
     // Game server data
-    gameServerPort = "<APP_PORT>"      // String | E.G. 25565
-    appName        = "<APP_NAME>"      // E.G. MySuperGame
-    appVersion     = "<APP_VERSION>"   // E.G. V1
-    arbitriumAPI   = "<ARBITRIUM_API>" // E.G. https://staging-api.edgegap.com/
-    apiToken       = "<API_TOKEN>"     // E.G. 1111aa11aa11111a1aa11111d111a111111111a1
+    public const string GameServerPort = "<APP_PORT>";         // String | E.G. 25565 
+    public const string AppName = "<APP_NAME>";                // E.G. MySuperGame 
+    public const string AppVersion = "<APP_VERSION>";          // E.G. V1
+    // You MUST have a forward slash (/) at the end of your URL
+    public const string ArbitriumAPI = "<ARBITRIUM_API>";      // E.G. https://api.edgegap.com/
+    // You MUST NOT have prefix "token" in your API token value
+    // token 08230a25-0fdb-4f56-917b-0a58ec35cbaf INVALID
+    // 08230a25-0fdb-4f56-917b-0a58ec35cbaf VALID
+    public const string ApiToken = "<API_TOKEN>";              // E.G. 08230a25-0fdb-4f56-917b-0a58ec35cbaf
+    // This tag will be associated with your deployemnt.
+    // You can change it for anything you want!
+    public const string DeploymentTag = "Open Match Tutorial"; // E.G. Open Match Tutorial
     ```
 4. Install using the appropriate script
 
