@@ -16,10 +16,10 @@ namespace director
         public const string AppVersion = "<APP_VERSION>";     // E.G. V1
         // You MUST have a forward slash (/) at the end of your URL
         public const string ArbitriumAPI = "<ARBITRIUM_API>"; // E.G. https://api.edgegap.com/
-        // You MUST NOT have "token" in your API token
+        // You MUST NOT have prefix "token" in your API token value
         // token 08230a25-0fdb-4f56-917b-0a58ec35cbaf INVALID
         // 08230a25-0fdb-4f56-917b-0a58ec35cbaf VALID
-        public const string ApiToken = "<API_TOKEN>";         // E.G. 1111aa11aa11111a1aa11111d111a111111111a1
+        public const string ApiToken = "<API_TOKEN>";         // E.G. 08230a25-0fdb-4f56-917b-0a58ec35cbaf
     }
 
     public static class Director
