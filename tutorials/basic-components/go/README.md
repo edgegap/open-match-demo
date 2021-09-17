@@ -43,7 +43,7 @@ This is the source code associated with [this](https://docs.edgegap.com/docs/ope
     gameServerPort = "<APP_PORT>"      // String | E.G. 25565
     appName        = "<APP_NAME>"      // E.G. MySuperGame
     appVersion     = "<APP_VERSION>"   // E.G. V1
-    arbitriumAPI   = "<ARBITRIUM_API>" // E.G. https://staging-api.edgegap.com/
+    arbitriumAPI   = "<ARBITRIUM_API>" // E.G. https://api.edgegap.com/
     apiToken       = "<API_TOKEN>"     // E.G. 1111aa11aa11111a1aa11111d111a111111111a1
     ```
 4. Install using the appropriate script
