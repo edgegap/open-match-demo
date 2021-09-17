@@ -22,7 +22,7 @@ This is the source code associated with [this](https://docs.edgegap.com/docs/ope
 
 ### Prerequisites
 
-* [Install](https://golang.org/dl/) Golang on your computer
+* [Install](https://dotnet.microsoft.com/download/dotnet/6.0) **Dotnet 6.0 SDK/Runtime** on your compute
 * Install [Docker](https://docs.docker.com/docker-for-windows/install/)
 * Having a Kubernetes ecosystem available _([Docker Desktop includes a standalone Kubernetes server and client](https://docs.docker.com/docker-for-windows/kubernetes/))_
 
@@ -35,16 +35,16 @@ This is the source code associated with [this](https://docs.edgegap.com/docs/ope
    ```
 2. Go to the tutorial's folder
    ```sh
-   cd [PATH_TO_PROJECT]/tutorials/basic-components/go
+   cd [PATH_TO_PROJECT]/tutorials/basic-components/csharp-http
    ```
-3. In ***./director/main.go*** change the variables to put your values.
-    ```go
+3. In ***./director/Director.cs*** change the variables to put your values.
+    ```cs
     // Game server data
-    gameServerPort = "<APP_PORT>"      // String | E.G. 25565
-    appName        = "<APP_NAME>"      // E.G. MySuperGame
-    appVersion     = "<APP_VERSION>"   // E.G. V1
-    arbitriumAPI   = "<ARBITRIUM_API>" // E.G. https://api.edgegap.com/
-    apiToken       = "<API_TOKEN>"     // E.G. 1111aa11aa11111a1aa11111d111a111111111a1
+    public const string GameServerPort = "<APP_PORT>";    // String | E.G. 25565 
+    public const string AppName = "<APP_NAME>";           // E.G. MySuperGame 
+    public const string AppVersion = "<APP_VERSION>";     // E.G. V1 
+    public const string ArbitriumAPI = "<ARBITRIUM_API>"; // E.G. https://api.edgegap.com/ 
+    public const string ApiToken = "<API_TOKEN>";         // E.G. 1111aa11aa11111a1aa11111d111a111111111a1 
     ```
 4. Install using the appropriate script
 
