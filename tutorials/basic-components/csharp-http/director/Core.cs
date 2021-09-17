@@ -11,15 +11,18 @@ namespace director
         public const int OpenMatchMatchFunctionPort = 51502;
         public const string OpenMatchBackendService = "open-match-backend:51505";
         // Game server data
-        public const string GameServerPort = "<APP_PORT>";    // String | E.G. 25565 
-        public const string AppName = "<APP_NAME>";           // E.G. MySuperGame 
-        public const string AppVersion = "<APP_VERSION>";     // E.G. V1
+        public const string GameServerPort = "<APP_PORT>";         // String | E.G. 25565 
+        public const string AppName = "<APP_NAME>";                // E.G. MySuperGame 
+        public const string AppVersion = "<APP_VERSION>";          // E.G. V1
         // You MUST have a forward slash (/) at the end of your URL
-        public const string ArbitriumAPI = "<ARBITRIUM_API>"; // E.G. https://api.edgegap.com/
+        public const string ArbitriumAPI = "<ARBITRIUM_API>";      // E.G. https://api.edgegap.com/
         // You MUST NOT have prefix "token" in your API token value
         // token 08230a25-0fdb-4f56-917b-0a58ec35cbaf INVALID
         // 08230a25-0fdb-4f56-917b-0a58ec35cbaf VALID
-        public const string ApiToken = "<API_TOKEN>";         // E.G. 08230a25-0fdb-4f56-917b-0a58ec35cbaf
+        public const string ApiToken = "<API_TOKEN>";              // E.G. 08230a25-0fdb-4f56-917b-0a58ec35cbaf
+        // This tag will be associated with your deployemnt.
+        // You can change it for anything you want!
+        public const string DeploymentTag = "Open Match Tutorial"; // E.G. Open Match Tutorial
     }
 
     public static class Director
@@ -210,7 +213,7 @@ namespace director
                     app_name = Constant.AppName,
                     version_name = Constant.AppVersion,
                     ip_list = IPList,
-                    tags = new string[] { "Open Match" }
+                    tags = new string[] { Constant.DeploymentTag }
                 };
 
 
