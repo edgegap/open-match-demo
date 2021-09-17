@@ -37,7 +37,7 @@ This is the source code associated with [this](https://docs.edgegap.com/docs/ope
    ```sh
    cd [PATH_TO_PROJECT]/tutorials/basic-components/csharp-http
    ```
-3. In ***./director/Director.cs*** change the variables to put your values.
+3. In ***./director/Core.cs*** change the variables to put your values.
     ```cs
     // Game server data
     public const string GameServerPort = "<APP_PORT>";    // String | E.G. 25565 
