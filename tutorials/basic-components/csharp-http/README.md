@@ -79,7 +79,7 @@ This is the source code associated with [this](https://docs.edgegap.com/docs/ope
 
 ### How to use it
 
-You can learn how to use your matchmaker [here](https://docs.edgegap.com/docs/openmatch/tutorials/basic/open-match-tutorial-basics-how-to-use-it)
+You can learn how to use your matchmaker [here](https://docs.edgegap.com/docs/matchmaker/component-tutorial/how-to-use-it)
 
 
 ## Acknowledgements
